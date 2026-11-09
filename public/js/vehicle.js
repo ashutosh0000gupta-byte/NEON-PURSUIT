@@ -460,8 +460,9 @@ class Vehicle {
     // Acceleration force
     let accelForce = 0;
     if (this.throttle > 0) {
-      // Higher torque in lower gears
-      const gearTorqueMultiplier = [1.8, 1.45, 1.15, 0.9, 0.72, 0.58][this.gear - 1];
+      // Higher torque in lower gears (safe gear index fallback)
+      const gearIdx = typeof this.gear === 'number' ? Math.max(0, Math.min(5, this.gear - 1)) : 0;
+      const gearTorqueMultiplier = [1.8, 1.45, 1.15, 0.9, 0.72, 0.58][gearIdx];
       let baseAccel = 18.0 * gearTorqueMultiplier;
       if (this.isNitro) baseAccel *= 1.6;
 

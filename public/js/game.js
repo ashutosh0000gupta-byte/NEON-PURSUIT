@@ -3,8 +3,12 @@
  * Need for Speed: Most Wanted (2005) Style 3D Racing with Dynamic In-Game Billboard Ads
  */
 (function () {
-  // Ensure DOM is loaded
-  window.addEventListener('DOMContentLoaded', initGame);
+  // Ensure DOM is loaded immediately (robust against fast cache / interactive state)
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', initGame);
+  } else {
+    initGame();
+  }
 
   async function initGame() {
     console.log('🏁 Initializing NEON PURSUIT Engine...');
@@ -100,10 +104,46 @@
     const hud = new GameHUD();
     const adTracker = new AdTracker(app, camera, audio);
 
-    // 7a. Instantiate Mobile Touch Virtual Controller
+    // 7a. Atmosphere Cycle (Autumn Golden Hour -> Midnight Neon -> Overcast Rain)
+    let atmosphereMode = 0;
+    function setAtmosphere(mode) {
+      atmosphereMode = mode;
+      if (mode === 0) {
+        app.scene.ambientLight = new pc.Color(0.48, 0.40, 0.28);
+        app.scene.fogColor = new pc.Color(0.68, 0.55, 0.38);
+        app.scene.fogDensity = 0.0028;
+        sunLight.light.color = new pc.Color(1.0, 0.85, 0.55);
+        sunLight.light.intensity = 1.55;
+        hud.showToast('🌅 ROCKPORT AUTUMN GOLDEN HOUR');
+      } else if (mode === 1) {
+        app.scene.ambientLight = new pc.Color(0.08, 0.10, 0.16);
+        app.scene.fogColor = new pc.Color(0.04, 0.06, 0.10);
+        app.scene.fogDensity = 0.0035;
+        sunLight.light.color = new pc.Color(0.2, 0.35, 0.65);
+        sunLight.light.intensity = 0.45;
+        hud.showToast('🌙 MIDNIGHT NEON CITY');
+      } else {
+        app.scene.ambientLight = new pc.Color(0.32, 0.35, 0.40);
+        app.scene.fogColor = new pc.Color(0.40, 0.45, 0.50);
+        app.scene.fogDensity = 0.0042;
+        sunLight.light.color = new pc.Color(0.7, 0.75, 0.8);
+        sunLight.light.intensity = 0.9;
+        hud.showToast('🌧️ OVERCAST WET RAIN');
+      }
+    }
+    window.setAtmosphere = setAtmosphere;
+
+    // Press 'N' to cycle Day / Night / Weather
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'n' || e.key === 'N') {
+        setAtmosphere((atmosphereMode + 1) % 3);
+      }
+    });
+
+    // 7b. Instantiate Mobile Touch Virtual Controller
     const mobileControls = window.MobileControlsManager ? new MobileControlsManager() : null;
 
-    // 7b. Instantiate Civilian Traffic, Street Racing, Police Pursuit, Pursuit Breakers & Garage
+    // 7c. Instantiate Civilian Traffic, Street Racing, Police Pursuit, Pursuit Breakers & Garage
     const traffic = window.TrafficManager ? new TrafficManager(app, audio) : null;
     const race = window.RaceManager ? new RaceManager(app, audio, hud) : null;
     const police = window.PoliceManager ? new PoliceManager(app, audio, hud) : null;
@@ -117,7 +157,7 @@
     window.policeInstance = police;
     window.raceInstance = race;
 
-    // 7c. Realistic Particle, Tire Smoke & Skidmark VFX System
+    // 7d. Realistic Particle, Tire Smoke & Skidmark VFX System
     window.gameParticles = window.ParticleVFXSystem ? new ParticleVFXSystem(app) : null;
 
     // Press 'M' to toggle Pursuit Electronic Soundtrack
@@ -149,6 +189,14 @@
       }
     });
 
+    // Camera Mode Switching Listener ('C' key)
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'c' || e.key === 'C') {
+        cameraMode = (cameraMode + 1) % cameraConfigs.length;
+        console.log(`🎥 Camera Switched to Mode ${cameraMode}`);
+      }
+    });
+
     // Wire up HUD callbacks
     adTracker.onImpressionVerified = (data) => {
       hud.showImpressionToast(data);
@@ -157,44 +205,42 @@
       hud.updateTelemetry(telemetry);
     };
 
-    // 8. Fetch & Spawn Dynamic Billboards from Backend Ad Server
-    const billboards = await loadDynamicBillboards(app, adTracker);
-
-    // 9. Camera Mode Switching Listener ('C' key)
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'c' || e.key === 'C') {
-        cameraMode = (cameraMode + 1) % cameraConfigs.length;
-        console.log(`🎥 Camera Switched to Mode ${cameraMode}`);
-      }
-    });
-
-    // 10. Start Engine Audio on First User Gesture
+    // 8. START ENGINE & DRIVING SESSION (IMMEDIATE, NON-BLOCKING)
     const startOverlay = document.getElementById('start-screen-overlay');
     const startBtn = document.getElementById('start-engine-btn');
 
     function startDrivingSession() {
       if (startOverlay) {
         startOverlay.classList.add('fade-out');
-        setTimeout(() => startOverlay.remove(), 600);
+        setTimeout(() => {
+          if (startOverlay && startOverlay.parentNode) {
+            startOverlay.parentNode.removeChild(startOverlay);
+          }
+        }, 500);
       }
-      audio.init();
-      audio.playPursuitAlert();
-      window.removeEventListener('click', startDrivingSession);
-      window.removeEventListener('keydown', startDrivingSession);
+      try {
+        audio.init();
+        audio.playPursuitAlert();
+      } catch (err) {
+        console.warn('Audio gesture init:', err);
+      }
     }
+    window.startDrivingSession = startDrivingSession;
 
     if (startBtn) {
       startBtn.addEventListener('click', startDrivingSession);
+      startBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        startDrivingSession();
+      }, { passive: false });
     }
     window.addEventListener('keydown', startDrivingSession, { once: true });
     window.addEventListener('click', startDrivingSession, { once: true });
 
-    // 11. MAIN ENGINE TICK LOOP
+    // 9. MAIN ENGINE TICK LOOP (STARTS IMMEDIATELY ON FRAME 0)
+    let billboards = [];
     app.on('update', (dt) => {
-      // Clamp dt to avoid physics explodes on tab switch
       const clampedDt = Math.min(dt, 0.1);
-
-      // Speedbreaker time scale (slow motion bullet time)
       const timeScale = window.gameTimeScale || 1.0;
       const scaledDt = clampedDt * timeScale;
 
@@ -224,7 +270,14 @@
       hud.update(vehicle, billboards, police);
     });
 
-    console.log('✅ NEON PURSUIT Ready to Race');
+    // 10. Load Dynamic Billboards asynchronously in parallel (never blocks engine tick)
+    loadDynamicBillboards(app, adTracker).then(bbs => {
+      billboards = bbs || [];
+    }).catch(err => {
+      console.warn('Billboards load error:', err);
+    });
+
+    console.log('✅ NEON PURSUIT Engine Ready to Race');
   }
 
   // Smooth Chase Camera with Speed-FOV expansion, Drift Lag & High-Speed Camera Shake

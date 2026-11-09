@@ -24,7 +24,7 @@
         in-game billboard advertising network with frustum viewability tracking & revenue analytics.
       </p>
 
-      <button id="start-engine-btn" class="start-btn">START ENGINE ⚡</button>
+      <button id="start-engine-btn" class="start-btn" onclick="window.startDrivingSession ? window.startDrivingSession() : (document.getElementById('start-screen-overlay') && document.getElementById('start-screen-overlay').remove())">START ENGINE ⚡</button>
 
       <div class="nav-links-box">
         <a href="/dashboard.html" target="_blank" class="nav-link">📊 OPEN AD CAMPAIGN DASHBOARD</a>

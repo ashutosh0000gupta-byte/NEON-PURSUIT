@@ -132,8 +132,8 @@
       "headline": "REFLEXES AT WARP SPEED",
       "cpm": 95,
       "budget": 35000,
-      "spent": 0.095,
-      "impressions": 1,
+      "spent": 0,
+      "impressions": 0,
       "startDate": "2026-11-05",
       "endDate": "2026-12-20",
       "status": "active"
@@ -148,8 +148,8 @@
       "headline": "0ms LATENCY. NO EXCUSES.",
       "cpm": 110,
       "budget": 45000,
-      "spent": 0.44,
-      "impressions": 4,
+      "spent": 0,
+      "impressions": 0,
       "startDate": "2026-11-01",
       "endDate": "2026-12-31",
       "status": "active"

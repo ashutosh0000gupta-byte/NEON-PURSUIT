@@ -29,40 +29,45 @@ class ParticleVFXSystem {
 
   // 1. Procedural Smoke Puffs
   initSmokeMaterials() {
-    // Generate soft circular radial gradient texture for realistic billowy smoke
-    const canvas = document.createElement('canvas');
-    canvas.width = 64;
-    canvas.height = 64;
-    const ctx = canvas.getContext('2d');
-
-    const grad = ctx.createRadialGradient(32, 32, 4, 32, 32, 30);
-    grad.addColorStop(0, 'rgba(235, 235, 240, 0.95)');
-    grad.addColorStop(0.35, 'rgba(200, 205, 215, 0.7)');
-    grad.addColorStop(0.7, 'rgba(160, 165, 175, 0.35)');
-    grad.addColorStop(1, 'rgba(120, 125, 135, 0)');
-
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, 64, 64);
-
-    const smokeTex = new pc.Texture(this.app.graphicsDevice, {
-      width: 64,
-      height: 64,
-      format: pc.PIXELFORMAT_R8_G8_B8_A8,
-      minFilter: pc.FILTER_LINEAR,
-      magFilter: pc.FILTER_LINEAR,
-      addressU: pc.ADDRESS_CLAMP_TO_EDGE,
-      addressV: pc.ADDRESS_CLAMP_TO_EDGE
-    });
-    smokeTex.setSource(canvas);
-
-    // Smoke Material with Alpha Blending
     this.smokeMaterial = new pc.StandardMaterial();
     this.smokeMaterial.diffuse = new pc.Color(0.85, 0.85, 0.88);
-    this.smokeMaterial.opacityMap = smokeTex;
     this.smokeMaterial.opacity = 0.55;
     this.smokeMaterial.blendType = pc.BLEND_NORMAL;
     this.smokeMaterial.depthWrite = false;
-    this.smokeMaterial.cull = pc.CULLFACE_NONE;
+
+    try {
+      // Generate soft circular radial gradient texture for realistic billowy smoke
+      const canvas = document.createElement('canvas');
+      canvas.width = 64;
+      canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+
+      const grad = ctx.createRadialGradient(32, 32, 4, 32, 32, 30);
+      grad.addColorStop(0, 'rgba(235, 235, 240, 0.95)');
+      grad.addColorStop(0.35, 'rgba(200, 205, 215, 0.7)');
+      grad.addColorStop(0.7, 'rgba(160, 165, 175, 0.35)');
+      grad.addColorStop(1, 'rgba(120, 125, 135, 0)');
+
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 64, 64);
+
+      if (this.app && this.app.graphicsDevice) {
+        const smokeTex = new pc.Texture(this.app.graphicsDevice, {
+          width: 64,
+          height: 64,
+          format: pc.PIXELFORMAT_RGBA8,
+          minFilter: pc.FILTER_LINEAR,
+          magFilter: pc.FILTER_LINEAR,
+          addressU: pc.ADDRESS_CLAMP_TO_EDGE,
+          addressV: pc.ADDRESS_CLAMP_TO_EDGE
+        });
+        smokeTex.setSource(canvas);
+        this.smokeMaterial.opacityMap = smokeTex;
+      }
+    } catch (e) {
+      console.warn('Smoke texture fallback to procedural alpha:', e);
+    }
+
     this.smokeMaterial.update();
   }
 
@@ -322,3 +327,4 @@ class ParticleVFXSystem {
 }
 
 window.ParticleVFXSystem = ParticleVFXSystem;
+

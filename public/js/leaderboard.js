@@ -144,3 +144,4 @@ class LeaderboardManager {
 }
 
 window.LeaderboardManager = LeaderboardManager;
+

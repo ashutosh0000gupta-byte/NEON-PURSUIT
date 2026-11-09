@@ -55,6 +55,7 @@ class MobileControlsManager {
       <!-- TOP ACTION PILLS -->
       <div class="mobile-top-actions">
         <button class="m-pill-btn" id="m-btn-cam">📷 CAM</button>
+        <button class="m-pill-btn" id="m-btn-sky">☀️ SKY</button>
         <button class="m-pill-btn" id="m-btn-garage" style="color: #ff8c00; border-color: rgba(255, 140, 0, 0.4);">🔧 GARAGE</button>
         <button class="m-pill-btn" id="m-btn-cop" style="color: #ff3333; border-color: rgba(255, 50, 50, 0.4);">🚨 POLICE</button>
         <button class="m-pill-btn" id="m-btn-razor" style="color: #ffd700; border-color: rgba(255, 215, 0, 0.4);">⚡ RAZOR</button>
@@ -193,6 +194,11 @@ class MobileControlsManager {
     bindTapAction('m-btn-cam', () => {
       // Dispatch 'C' key event
       window.dispatchEvent(new KeyboardEvent('keydown', { key: 'c', bubbles: true }));
+    });
+
+    // Atmosphere Day/Night/Weather button
+    bindTapAction('m-btn-sky', () => {
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'n', bubbles: true }));
     });
 
     // Garage Customization button

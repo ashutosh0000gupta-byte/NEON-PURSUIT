@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 512" width="1024" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="50%" stop-color="#14141e"/>
+      <stop offset="100%" stop-color="#1f0909"/>
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff1a1a"/>
+      <stop offset="100%" stop-color="#ff7b00"/>
+    </linearGradient>
+    <linearGradient id="metalGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#aaaaaa"/>
+      <stop offset="100%" stop-color="#444444"/>
+    </linearGradient>
+    <pattern id="tireTread" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M0 20 L20 0 L40 20 L20 40 Z" fill="none" stroke="#222" stroke-width="2"/>
+      <line x1="20" y1="0" x2="20" y2="40" stroke="#1c1c28" stroke-width="4"/>
+    </pattern>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="512" fill="url(#bg)"/>
+  <rect width="1024" height="512" fill="url(#tireTread)" opacity="0.4"/>
+
+  <!-- High-tech diagonal grid accents -->
+  <path d="M-100 512 L400 0 L550 0 L50 512 Z" fill="#ff1a1a" opacity="0.15"/>
+  <path d="M500 512 L850 0 L900 0 L550 512 Z" fill="#ff7b00" opacity="0.08"/>
+
+  <!-- Border & Corner Tech Accents -->
+  <rect x="20" y="20" width="984" height="472" fill="none" stroke="#333344" stroke-width="3"/>
+  <rect x="16" y="16" width="992" height="480" fill="none" stroke="#ff2a2a" stroke-width="2" opacity="0.7"/>
+  <polygon points="20,20 80,20 20,80" fill="#ff1a1a"/>
+  <polygon points="1004,20 944,20 1004,80" fill="#ff7b00"/>
+  <polygon points="20,492 80,492 20,432" fill="#ff7b00"/>
+  <polygon points="1004,492 944,492 1004,432" fill="#ff1a1a"/>
+
+  <!-- Brand Eyebrow -->
+  <text x="70" y="80" font-family="'Impact', 'Arial Black', sans-serif" font-size="22" font-weight="900" fill="#ff4444" letter-spacing="6">
+    // OFFICIAL ULTRA-PERFORMANCE COMPOUND
+  </text>
+
+  <!-- Main Brand Title -->
+  <g filter="url(#glow)">
+    <text x="65" y="195" font-family="'Impact', 'Arial Black', sans-serif" font-size="110" font-style="italic" font-weight="900" fill="url(#redGrad)" letter-spacing="2">
+      APEX RACING
+    </text>
+  </g>
+  <text x="65" y="270" font-family="'Impact', 'Arial Black', sans-serif" font-size="64" font-weight="900" fill="#ffffff" letter-spacing="4">
+    STREET-SLICK PRO R9
+  </text>
+
+  <!-- Subheadline -->
+  <text x="70" y="340" font-family="'Segoe UI', 'Arial', sans-serif" font-size="28" font-weight="800" fill="#dddddd" letter-spacing="2">
+    MAXIMUM LATERAL G-FORCE. UNRIVALED STREET CONTROL.
+  </text>
+  <text x="70" y="380" font-family="'Segoe UI', 'Arial', sans-serif" font-size="20" font-weight="400" fill="#888899">
+    Forged Carbon Silica Formula • Rated to 360 km/h • Street Legal
+  </text>
+
+  <!-- Badge / CTA -->
+  <rect x="70" y="415" width="310" height="55" rx="6" fill="#ff1a1a"/>
+  <text x="100" y="452" font-family="'Impact', 'Arial Black', sans-serif" font-size="24" fill="#ffffff" letter-spacing="2">
+    EQUIP AT ALL GARAGES →
+  </text>
+
+  <!-- Right Side Visual / Tech Specs HUD -->
+  <circle cx="830" cy="256" r="170" fill="none" stroke="#222233" stroke-width="36"/>
+  <circle cx="830" cy="256" r="170" fill="none" stroke="#ff2a2a" stroke-width="12" stroke-dasharray="80 30 140 20 60 40"/>
+  <circle cx="830" cy="256" r="120" fill="#14141d" stroke="#444455" stroke-width="4"/>
+  <polygon points="830,170 885,256 775,256" fill="url(#redGrad)"/>
+  <circle cx="830" cy="256" r="35" fill="#09090f" stroke="#ff7b00" stroke-width="4"/>
+  <text x="830" y="265" font-family="'Impact', sans-serif" font-size="26" fill="#ffffff" text-anchor="middle">APEX</text>
+  
+  <text x="830" y="445" font-family="'Impact', sans-serif" font-size="28" fill="#ff4444" text-anchor="middle" letter-spacing="4">
+    GRIP FACTOR 1.48G
+  </text>
+
+  <!-- Live Ad Verification Tag -->
+  <text x="980" y="490" font-family="monospace" font-size="12" fill="#666677" text-anchor="end">
+    NEON PURSUIT AD-NETWORK // VERIFIED CPM ID: APX-001
+  </text>
+</svg>
+

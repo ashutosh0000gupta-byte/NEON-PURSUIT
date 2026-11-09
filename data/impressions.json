@@ -1,0 +1,21 @@
+{
+  "impressions": [
+    {
+      "id": "IMP-FHXQFQX",
+      "billboardId": "BB-003",
+      "campaignId": "CAMP-003",
+      "campaignName": "HyperCharge Zero Sugar Energy Drink",
+      "advertiser": "HyperCharge Beverage Co.",
+      "cpm": 95,
+      "revenueEarned": 0.095,
+      "dwellTime": 1.5,
+      "distance": 16.7,
+      "facingAngle": 34,
+      "speed": 180.7,
+      "sessionId": "driver_gwadt7q",
+      "valid": true,
+      "reason": "PASSED_ALL_CRITERIA",
+      "timestamp": "2026-11-09T15:53:48.541Z"
+    }
+  ]
+}

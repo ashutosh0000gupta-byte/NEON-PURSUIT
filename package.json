@@ -1,0 +1,24 @@
+{
+  "name": "neon-pursuit",
+  "version": "1.0.0",
+  "description": "3D Open-World Racing Game inspired by NFS Most Wanted with Dynamic Billboard Advertising",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "playcanvas",
+    "racing-game",
+    "3d",
+    "in-game-advertising",
+    "billboard-ads",
+    "nfs-most-wanted"
+  ],
+  "author": "Antigravity",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "playcanvas": "^2.23.3"
+  }
+}

@@ -1,0 +1,669 @@
+/* ============================================================
+   NEON PURSUIT - In-Game HUD & Interface Stylesheet
+   Need for Speed: Most Wanted (2005) Cyberpunk Aesthetic
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #050608;
+  font-family: 'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #ffffff;
+}
+
+#application-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+}
+
+/* --- HUD ROOT CONTAINER --- */
+#neon-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ============================================================
+   TOP BAR: WANTED LEVEL, REVENUE & DRIFT SCORE
+   ============================================================ */
+.hud-top-bar {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  right: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* NFS Most Wanted Heat Meter */
+.wanted-meter {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(20, 10, 10, 0.88), rgba(40, 15, 15, 0.75));
+  border-left: 4px solid #ff2a2a;
+  border-top: 1px solid rgba(255, 60, 60, 0.4);
+  padding: 10px 18px;
+  clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%);
+  box-shadow: 0 4px 20px rgba(255, 40, 40, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+.heat-icon {
+  font-size: 26px;
+  margin-right: 12px;
+  filter: drop-shadow(0 0 8px #ff4400);
+}
+
+.heat-info {
+  display: flex;
+  flex-direction: column;
+  margin-right: 16px;
+}
+
+.heat-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  color: #ff3333;
+  letter-spacing: 2px;
+}
+
+.heat-sub {
+  font-size: 11px;
+  font-weight: 700;
+  color: #aaaaaa;
+  letter-spacing: 1px;
+}
+
+.heat-bars {
+  display: flex;
+  gap: 5px;
+}
+
+.hbar {
+  width: 8px;
+  height: 22px;
+  background: rgba(80, 20, 20, 0.6);
+  border: 1px solid rgba(255, 50, 50, 0.3);
+  transform: skewX(-15deg);
+}
+
+.hbar.active {
+  background: #ff2a2a;
+  box-shadow: 0 0 10px #ff2a2a;
+}
+
+/* Revenue Counter Card */
+.revenue-hud {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(8, 22, 28, 0.9), rgba(5, 12, 18, 0.8));
+  border: 1px solid rgba(0, 247, 255, 0.4);
+  border-bottom: 3px solid #00f7ff;
+  padding: 8px 24px;
+  clip-path: polygon(6% 0, 94% 0, 100% 100%, 0% 100%);
+  box-shadow: 0 0 20px rgba(0, 247, 255, 0.2);
+  backdrop-filter: blur(8px);
+}
+
+.rev-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #00f7ff;
+  letter-spacing: 2px;
+}
+
+.rev-val {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: #39ff14;
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.6);
+}
+
+/* Drift Score Card */
+.drift-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background: rgba(15, 15, 20, 0.7);
+  border-right: 4px solid #ffb703;
+  padding: 8px 16px;
+  opacity: 0.35;
+  transition: all 0.2s ease;
+}
+
+.drift-box.active {
+  opacity: 1;
+  background: rgba(30, 20, 10, 0.9);
+  box-shadow: 0 0 25px rgba(255, 183, 3, 0.4);
+  transform: scale(1.05);
+}
+
+.drift-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffb703;
+  letter-spacing: 2px;
+}
+
+.drift-score {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: #ffffff;
+  text-shadow: 0 0 8px #ffb703;
+}
+
+/* ============================================================
+   BOTTOM LEFT: MINIMAP RADAR
+   ============================================================ */
+.hud-bottom-left {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+}
+
+.radar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#radar-canvas {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 247, 255, 0.3);
+}
+
+.radar-legend {
+  margin-top: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #8899aa;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(10, 15, 22, 0.85);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.car-dot {
+  background: #00f7ff;
+  box-shadow: 0 0 6px #00f7ff;
+}
+
+.bb-dot {
+  background: #ffb703;
+  box-shadow: 0 0 6px #ffb703;
+}
+
+/* ============================================================
+   BOTTOM RIGHT: SPEEDOMETER & TACHOMETER CLUSTER
+   ============================================================ */
+.hud-bottom-right {
+  position: absolute;
+  bottom: 24px;
+  right: 28px;
+}
+
+.speedo-cluster {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background: linear-gradient(135deg, rgba(12, 16, 24, 0.92), rgba(5, 8, 14, 0.95));
+  border-right: 5px solid #00f7ff;
+  border-top: 1px solid rgba(0, 247, 255, 0.4);
+  padding: 16px 24px 14px 32px;
+  clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+  box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 247, 255, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.gear-badge {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 24px;
+  font-weight: 900;
+  color: #ffb703;
+  background: rgba(30, 25, 10, 0.8);
+  border: 1px solid rgba(255, 183, 3, 0.5);
+  width: 44px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: skewX(-12deg);
+  margin-bottom: 4px;
+  text-shadow: 0 0 8px #ffb703;
+}
+
+.speed-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.speed-number {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 1;
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.speed-unit {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #00f7ff;
+  letter-spacing: 2px;
+}
+
+/* RPM Bar */
+.rpm-meter {
+  width: 220px;
+  height: 8px;
+  background: rgba(20, 30, 45, 0.8);
+  border: 1px solid rgba(0, 247, 255, 0.3);
+  margin-top: 10px;
+  transform: skewX(-15deg);
+  overflow: hidden;
+}
+
+.rpm-fill {
+  height: 100%;
+  width: 15%;
+  background: linear-gradient(90deg, #00f7ff 0%, #39ff14 70%, #ffb703 85%, #ff2a2a 100%);
+  transition: width 0.05s ease-out;
+}
+
+.rpm-fill.redline {
+  background: #ff1a1a;
+  box-shadow: 0 0 12px #ff1a1a;
+}
+
+/* Nitro Bar */
+.nitro-meter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.nitro-label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  color: #00f7ff;
+  letter-spacing: 1px;
+}
+
+.nitro-track {
+  width: 180px;
+  height: 6px;
+  background: rgba(10, 20, 35, 0.8);
+  border: 1px solid rgba(0, 247, 255, 0.3);
+  transform: skewX(-15deg);
+  overflow: hidden;
+}
+
+.nitro-fill {
+  height: 100%;
+  width: 100%;
+  background: #00f7ff;
+  box-shadow: 0 0 8px #00f7ff;
+  transition: width 0.1s ease;
+}
+
+/* ============================================================
+   TOP RIGHT: LIVE AD TELEMETRY PANEL
+   ============================================================ */
+.hud-telemetry-panel {
+  position: absolute;
+  top: 90px;
+  right: 24px;
+  width: 280px;
+  background: rgba(8, 12, 18, 0.88);
+  border: 1px solid rgba(0, 247, 255, 0.35);
+  border-right: 4px solid #00f7ff;
+  padding: 14px 18px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+  pointer-events: auto;
+}
+
+.tele-header {
+  display: flex;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  color: #00f7ff;
+  letter-spacing: 1.5px;
+  border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+.tele-dot {
+  width: 8px;
+  height: 8px;
+  background: #39ff14;
+  border-radius: 50%;
+  margin-right: 8px;
+  box-shadow: 0 0 8px #39ff14;
+  animation: pulse-dot 1.5s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.tele-toggle-hint {
+  margin-left: auto;
+  font-size: 9px;
+  color: #667788;
+}
+
+.tele-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.t-key {
+  color: #8899aa;
+}
+
+.t-val {
+  color: #ffffff;
+}
+
+.tele-progress-wrapper {
+  margin-top: 10px;
+}
+
+.tele-prog-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+  color: #8899aa;
+  margin-bottom: 4px;
+}
+
+.tele-bar-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(20, 30, 45, 0.9);
+  border: 1px solid rgba(0, 247, 255, 0.3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.tele-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #ffb703, #39ff14);
+  box-shadow: 0 0 10px #39ff14;
+  transition: width 0.1s linear;
+}
+
+.tele-status-tag {
+  margin-top: 12px;
+  padding: 5px 8px;
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  border-radius: 3px;
+}
+
+.tele-status-tag.standby {
+  background: rgba(30, 40, 55, 0.6);
+  color: #778899;
+}
+
+.tele-status-tag.tracking {
+  background: rgba(0, 247, 255, 0.15);
+  color: #00f7ff;
+  border: 1px solid #00f7ff;
+  box-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+}
+
+.tele-status-tag.warning {
+  background: rgba(255, 183, 3, 0.15);
+  color: #ffb703;
+  border: 1px solid #ffb703;
+}
+
+/* ============================================================
+   AD VERIFIED TOAST POPUP
+   ============================================================ */
+.ad-verified-toast {
+  position: absolute;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-30px);
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, rgba(10, 25, 20, 0.95), rgba(5, 15, 12, 0.95));
+  border: 2px solid #39ff14;
+  border-left: 6px solid #39ff14;
+  padding: 14px 28px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 30px rgba(57, 255, 20, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  z-index: 50;
+}
+
+.ad-verified-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast-icon {
+  font-size: 32px;
+  margin-right: 16px;
+  filter: drop-shadow(0 0 10px #39ff14);
+}
+
+.toast-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.toast-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  font-weight: 900;
+  color: #39ff14;
+  letter-spacing: 2px;
+}
+
+.toast-desc {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.toast-payout {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: #ffb703;
+  margin-top: 2px;
+  text-shadow: 0 0 8px #ffb703;
+}
+
+/* ============================================================
+   BOTTOM CONTROLS HINT BAR
+   ============================================================ */
+.hud-controls-hint {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #667788;
+  background: rgba(10, 14, 20, 0.7);
+  padding: 4px 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hud-controls-hint b {
+  color: #00f7ff;
+}
+
+/* ============================================================
+   START SCREEN OVERLAY
+   ============================================================ */
+#start-screen-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(15, 20, 32, 0.94) 0%, rgba(5, 7, 12, 0.98) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: opacity 0.6s ease;
+  pointer-events: auto;
+}
+
+#start-screen-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.start-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 650px;
+  text-align: center;
+  padding: 30px;
+}
+
+.game-logo-badge {
+  font-size: 12px;
+  font-weight: 900;
+  color: #00f7ff;
+  letter-spacing: 6px;
+  margin-bottom: 8px;
+}
+
+.game-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 56px;
+  font-weight: 900;
+  font-style: italic;
+  background: linear-gradient(90deg, #ffffff 0%, #00f7ff 60%, #ff007f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 25px rgba(0, 247, 255, 0.5));
+  margin-bottom: 8px;
+}
+
+.game-subtitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffb703;
+  letter-spacing: 3px;
+  margin-bottom: 24px;
+}
+
+.game-description {
+  font-size: 14px;
+  color: #99aabb;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.start-btn {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  color: #050810;
+  background: linear-gradient(90deg, #00f7ff, #39ff14);
+  padding: 16px 48px;
+  border: none;
+  cursor: pointer;
+  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+  box-shadow: 0 0 30px rgba(0, 247, 255, 0.6);
+  transition: all 0.2s ease;
+}
+
+.start-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 45px rgba(57, 255, 20, 0.8);
+}
+
+.nav-links-box {
+  margin-top: 24px;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  color: #00f7ff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 14px;
+  border: 1px solid rgba(0, 247, 255, 0.3);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+  background: rgba(0, 247, 255, 0.15);
+  border-color: #00f7ff;
+}
+

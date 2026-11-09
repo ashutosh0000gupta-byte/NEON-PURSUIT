@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>NEON PURSUIT - 3D Open World Racing & Dynamic Ad Engine</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏎️</text></svg>">
+</head>
+<body>
+  <!-- 3D WebGL Canvas for PlayCanvas Engine -->
+  <canvas id="application-canvas"></canvas>
+
+  <!-- Start Screen Overlay -->
+  <div id="start-screen-overlay">
+    <div class="start-box">
+      <div class="game-logo-badge">// PLAYCANVAS 3D RACING ENGINE</div>
+      <h1 class="game-title">NEON PURSUIT</h1>
+      <div class="game-subtitle">NEED FOR SPEED: MOST WANTED INSPIRED RACING // DYNAMIC IN-GAME AD PLATFORM</div>
+      
+      <p class="game-description">
+        Tear through the neon-drenched city streets in an ultra-performance sports car. 
+        Experience realistic driving physics, high-speed drifts, and an integrated real-time 
+        in-game billboard advertising network with frustum viewability tracking & revenue analytics.
+      </p>
+
+      <button id="start-engine-btn" class="start-btn">START ENGINE ⚡</button>
+
+      <div class="nav-links-box">
+        <a href="/dashboard.html" target="_blank" class="nav-link">📊 OPEN AD CAMPAIGN DASHBOARD</a>
+        <a href="/api/ads/active" target="_blank" class="nav-link">📡 VIEW LIVE AD API</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PlayCanvas 3D Engine & Game Architecture Scripts -->
+  <script src="/js/playcanvas.min.js"></script>
+  <script src="/js/audio.js"></script>
+  <script src="/js/vehicle.js"></script>
+  <script src="/js/traffic.js"></script>
+  <script src="/js/race.js"></script>
+  <script src="/js/city.js"></script>
+  <script src="/js/billboard.js"></script>
+  <script src="/js/adTracker.js"></script>
+  <script src="/js/hud.js"></script>
+  <script src="/js/game.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEON PURSUIT // Advertising Operations & Revenue Dashboard</title>
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+</head>
+<body>
+  <!-- Header Bar -->
+  <header class="dash-header">
+    <div class="brand-section">
+      <span class="brand-logo">NEON PURSUIT</span>
+      <span class="brand-tag">AD OPERATIONS CENTER</span>
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        <span>AD SERVER ONLINE</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button id="btn-refresh" class="btn btn-secondary">🔄 REFRESH</button>
+      <button id="btn-reset-stats" class="btn btn-danger">🗑️ RESET STATS</button>
+      <a href="/" target="_blank" class="btn btn-primary">🏎️ LAUNCH 3D GAME</a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="dash-container">
+    <!-- Top KPI Grid -->
+    <section class="kpi-grid">
+      <div class="kpi-card" style="--accent-color: #00f7ff;">
+        <div class="kpi-title">TOTAL IMPRESSION BEACONS</div>
+        <div class="kpi-value" id="kpi-total-impressions">0</div>
+        <div class="kpi-sub">Total 3D view events evaluated</div>
+      </div>
+
+      <div class="kpi-card" style="--accent-color: #39ff14;">
+        <div class="kpi-title">VERIFIED VIEWABLE IMPRESSIONS</div>
+        <div class="kpi-value" id="kpi-valid-impressions" style="color: #39ff14;">0</div>
+        <div class="kpi-sub positive">✓ Passed Frustum, Distance, & Dwell (≥1.5s)</div>
+      </div>
+
+      <div class="kpi-card" style="--accent-color: #ffb703;">
+        <div class="kpi-title">VIEWABILITY VERIFICATION RATE</div>
+        <div class="kpi-value" id="kpi-view-rate">100%</div>
+        <div class="kpi-sub">Anti-fraud quality compliance</div>
+      </div>
+
+      <div class="kpi-card" style="--accent-color: #ff007f;">
+        <div class="kpi-title">ESTIMATED GROSS REVENUE</div>
+        <div class="kpi-value" id="kpi-total-revenue" style="color: #ffb703;">₹0.00</div>
+        <div class="kpi-sub positive">Calculated via CPM Model</div>
+      </div>
+    </section>
+
+    <!-- Formula & Model Explanation Banner -->
+    <section class="formula-card">
+      <div class="formula-info">
+        <h3>REVENUE CALCULATION MODEL (CPM STANDARD)</h3>
+        <p>
+          In-game advertising revenue is calculated strictly based on verified viewable impressions meeting 
+          the 3D camera frustum, line-of-sight distance (&lt;85m), facing angle (&lt;75°), and continuous dwell time (≥1.5s) thresholds.
+        </p>
+      </div>
+      <div class="formula-math-box">
+        <span>Revenue = (Valid Impressions ÷ 1,000) × CPM</span>
+      </div>
+    </section>
+
+    <!-- Live Billboards Inventory Grid -->
+    <section>
+      <div class="section-header">
+        <h2 class="section-title">
+          <span>CITY BILLBOARD INVENTORY</span>
+          <span class="section-count">4 ACTIVE UNITS</span>
+        </h2>
+      </div>
+
+      <div class="billboard-grid" id="billboard-grid-container">
+        <!-- Rendered dynamically by dashboard.js -->
+      </div>
+    </section>
+
+    <!-- Real-Time Impression Stream Table -->
+    <section style="margin-top: 36px;">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span>LIVE IMPRESSION STREAM</span>
+          <span class="section-count">REAL-TIME BEACONS</span>
+        </h2>
+      </div>
+
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="imp-table">
+            <thead>
+              <tr>
+                <th>TIME</th>
+                <th>BEACON ID</th>
+                <th>BILLBOARD</th>
+                <th>CAMPAIGN & ADVERTISER</th>
+                <th>DISTANCE</th>
+                <th>DWELL</th>
+                <th>ANGLE</th>
+                <th>STATUS</th>
+                <th>REVENUE</th>
+              </tr>
+            </thead>
+            <tbody id="impressions-tbody">
+              <!-- Rendered dynamically by dashboard.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
+

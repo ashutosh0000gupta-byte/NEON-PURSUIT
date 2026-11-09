@@ -1,0 +1,158 @@
+{
+  "billboards": [
+    {
+      "id": "BB-001",
+      "name": "Highway Overpass Mega Billboard",
+      "location": "South Expressway & Metro Loop Junction",
+      "dimensions": {
+        "width": 16,
+        "height": 8
+      },
+      "orientation": "facing-north",
+      "position": {
+        "x": 0,
+        "y": 14,
+        "z": -90
+      },
+      "rotation": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "type": "gantry-illuminated",
+      "status": "online"
+    },
+    {
+      "id": "BB-002",
+      "name": "Downtown Central Skyscraper Display",
+      "location": "Broad Street & Neon Plaza Tower",
+      "dimensions": {
+        "width": 18,
+        "height": 10
+      },
+      "orientation": "facing-south",
+      "position": {
+        "x": 75,
+        "y": 20,
+        "z": 20
+      },
+      "rotation": {
+        "x": 0,
+        "y": -90,
+        "z": 0
+      },
+      "type": "building-led-curved",
+      "status": "online"
+    },
+    {
+      "id": "BB-003",
+      "name": "Waterfront Industrial Speedway Board",
+      "location": "East Docks Container Terminal",
+      "dimensions": {
+        "width": 14,
+        "height": 7
+      },
+      "orientation": "facing-west",
+      "position": {
+        "x": -85,
+        "y": 12,
+        "z": -15
+      },
+      "rotation": {
+        "x": 0,
+        "y": 90,
+        "z": 0
+      },
+      "type": "monolith-floodlight",
+      "status": "online"
+    },
+    {
+      "id": "BB-004",
+      "name": "North Ridge Bridge Speedway Banner",
+      "location": "Hillside Expressway Overpass North",
+      "dimensions": {
+        "width": 16,
+        "height": 8
+      },
+      "orientation": "facing-south",
+      "position": {
+        "x": 0,
+        "y": 15,
+        "z": 100
+      },
+      "rotation": {
+        "x": 0,
+        "y": 180,
+        "z": 0
+      },
+      "type": "gantry-illuminated",
+      "status": "online"
+    }
+  ],
+  "campaigns": [
+    {
+      "id": "CAMP-001",
+      "name": "Apex Pro Grip - Street Slick Tires",
+      "advertiser": "Apex Motorsport Group",
+      "billboardId": "BB-001",
+      "image": "/assets/ads/ad_apex_tires.svg",
+      "fallbackImage": "/assets/ads/ad_apex_tires.svg",
+      "headline": "MAXIMUM TRACTION. ZERO MERCY.",
+      "cpm": 120,
+      "budget": 50000,
+      "spent": 0,
+      "impressions": 0,
+      "startDate": "2026-11-01",
+      "endDate": "2026-12-31",
+      "status": "active"
+    },
+    {
+      "id": "CAMP-002",
+      "name": "Quantum Nitro Fuel - Ignite The Streets",
+      "advertiser": "Quantum Energy Corp",
+      "billboardId": "BB-002",
+      "image": "/assets/ads/ad_quantum_fuel.svg",
+      "fallbackImage": "/assets/ads/ad_quantum_fuel.svg",
+      "headline": "105 OCTANE HYBRID BOOST",
+      "cpm": 150,
+      "budget": 75000,
+      "spent": 0,
+      "impressions": 0,
+      "startDate": "2026-11-01",
+      "endDate": "2026-12-31",
+      "status": "active"
+    },
+    {
+      "id": "CAMP-003",
+      "name": "HyperCharge Zero Sugar Energy Drink",
+      "advertiser": "HyperCharge Beverage Co.",
+      "billboardId": "BB-003",
+      "image": "/assets/ads/ad_hyper_energy.svg",
+      "fallbackImage": "/assets/ads/ad_hyper_energy.svg",
+      "headline": "REFLEXES AT WARP SPEED",
+      "cpm": 95,
+      "budget": 35000,
+      "spent": 0.095,
+      "impressions": 1,
+      "startDate": "2026-11-05",
+      "endDate": "2026-12-20",
+      "status": "active"
+    },
+    {
+      "id": "CAMP-004",
+      "name": "CyberTel 5G Ultra Gaming Network",
+      "advertiser": "CyberTel Global",
+      "billboardId": "BB-004",
+      "image": "/assets/ads/ad_cyber_tel.svg",
+      "fallbackImage": "/assets/ads/ad_cyber_tel.svg",
+      "headline": "0ms LATENCY. NO EXCUSES.",
+      "cpm": 110,
+      "budget": 45000,
+      "spent": 0,
+      "impressions": 0,
+      "startDate": "2026-11-01",
+      "endDate": "2026-12-31",
+      "status": "active"
+    }
+  ]
+}

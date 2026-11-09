@@ -311,6 +311,56 @@ app.post('/api/admin/campaigns/switch', (req, res) => {
   res.json({ success: true, message: `Billboard ${billboardId} updated to campaign ${campaign.name}` });
 });
 
+// 6b. Admin: Create New Advertising Campaign (Direct Advertisers)
+app.post('/api/admin/campaigns/create', (req, res) => {
+  const {
+    name,
+    advertiser,
+    billboardId,
+    image,
+    headline = 'PREMIUM MOTORSPORT BRAND',
+    cpm = 120.0,
+    budget = 50000
+  } = req.body;
+
+  if (!name || !advertiser || !billboardId) {
+    return res.status(400).json({ error: 'Missing required campaign parameters' });
+  }
+
+  const data = loadData(CAMPAIGNS_FILE, { billboards: [], campaigns: [] });
+  const campaignId = 'CAMP-' + Math.random().toString(36).substring(2, 7).toUpperCase();
+
+  // Deactivate existing campaign on this billboard
+  data.campaigns.forEach(c => {
+    if (c.billboardId === billboardId) {
+      c.status = 'paused';
+    }
+  });
+
+  const newCampaign = {
+    id: campaignId,
+    name,
+    advertiser,
+    billboardId,
+    image: image || '/assets/ads/ad_apex_tires.svg',
+    fallbackImage: '/assets/ads/default_ad.svg',
+    headline,
+    cpm: parseFloat(cpm) || 120.0,
+    budget: parseFloat(budget) || 50000,
+    spent: 0,
+    impressions: 0,
+    startDate: new Date().toISOString().split('T')[0],
+    endDate: '2026-12-31',
+    status: 'active'
+  };
+
+  data.campaigns.push(newCampaign);
+  saveData(CAMPAIGNS_FILE, data);
+
+  console.log(`[CAMPAIGN-CREATED] ${name} (${campaignId}) by ${advertiser} assigned to ${billboardId} @ ₹${cpm} CPM`);
+  res.json({ success: true, campaign: newCampaign, message: 'Campaign created and activated successfully.' });
+});
+
 // 7. Admin: Reset stats for fresh test demo
 app.post('/api/admin/reset-stats', (req, res) => {
   saveData(IMPRESSIONS_FILE, { impressions: [] });

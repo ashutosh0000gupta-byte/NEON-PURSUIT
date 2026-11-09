@@ -1,122 +1,120 @@
 # 🏁 NEON PURSUIT
-### 3D Open-World Racing Game with Dynamic In-Game Billboard Advertising
-*Inspired by Need for Speed: Most Wanted (2005) • Built on PlayCanvas 3D Engine*
+### 3D Open-World Racing Game Inspired by Need for Speed: Most Wanted (2005)
+*Built on PlayCanvas 3D Engine • Real-Time In-Game Billboard Advertising Platform*
 
 ---
 
-## 🚀 1. Milestone 1 Implementation Overview
+## 🌟 Complete Feature Overview
 
-As outlined in the **Game Development Project Summary & Blueprint**, Milestone 1 establishes the core browser prototype demonstrating:
-1. **PlayCanvas 3D Engine Integration**: Standalone client running high-performance WebGL 3D graphics directly in web browsers.
-2. **3D City Environment**: Urban roadway grid, asphalt avenues, yellow/white lane markings, sidewalks, overpasses, glowing streetlights, and commercial skyscrapers with neon roof signage.
-3. **High-Performance Sports Car**:
-   - Iconic coupe styling inspired by NFS Most Wanted (aerodynamic body, GT rear wing, front splitter, quad exhaust).
-   - 4 independently rotating and steering alloy wheels.
-   - Projector headlights casting illumination forward on the asphalt.
-   - Dual red taillights that flare on braking and reverse.
-4. **Arcade Driving Physics**:
-   - Torque curve with 6-speed automatic gearbox and gear display.
-   - Speed-sensitive steering and top speed up to 260 km/h.
-   - Handbrake & drifting mechanics (`Spacebar`) with lateral slip and drift scoring.
-   - Dynamic chassis pitch & roll (suspension roll in corners, dip on braking).
-   - Nitro boost (`Shift`) with acceleration multiplier.
-5. **Procedural Web Audio Engine**:
-   - Real-time multi-oscillator V8 engine sound synthesis scaling with RPM and throttle.
-   - Automatic gear shift drops and turbo blow-off valve release.
-   - Dynamic tire screech sound triggered during high-angle drift.
-   - NFS Most Wanted pursuit chime and ad impression verification sound.
-6. **Dynamic In-Game Billboards**:
-   - Realistic 3D architectural structures: twin ground pylons, steel backing truss, maintenance catwalk with safety railings, and top spotlights.
-   - Dynamic ad texture loading pipeline fetching active campaigns from `/api/ads/active`.
-   - 4 active billboards distributed across key high-speed expressways and skyscraper plazas.
-7. **Ad Impression Verification Engine (IAB/MRC Viewability Standard)**:
-   - **3D Camera Frustum Check**: Projects billboard world coordinates to camera viewport plane `[0..1, 0..1]`.
-   - **Distance Validation**: Valid only within 85 meters.
-   - **Facing Angle Check**: Evaluates billboard normal dot product with camera vector (rejects viewing from behind or extreme oblique angles > 75°).
-   - **Dwell Time Requirement**: Requires continuous view for ≥ 1.5 seconds.
-   - **Server-Side Anti-Fraud**: Cooldown per billboard to eliminate spam impressions.
-8. **Advertising Revenue Model & Operations Dashboard**:
-   - Executive dark-mode dashboard at `http://localhost:3000/dashboard.html`.
-   - Real-time KPI cards: Total Impressions, Verified Impressions, Viewability Rate (%), and Gross Revenue (₹).
-   - Exact CPM formula: `Revenue = (Valid Impressions ÷ 1,000) × CPM`.
-   - Interactive Billboard Inventory Grid: Switch campaigns dynamically on live billboards with one click!
-   - Real-time Impression Stream Table streaming telemetry beacons live as the car drives past boards.
+**NEON PURSUIT** combines the adrenaline-pumping street racing and police pursuit mechanics of the legendary ***Need for Speed: Most Wanted (2005)*** with an enterprise-grade **Dynamic In-Game Billboard Advertising Network** running natively in modern web browsers with cross-platform desktop/mobile support.
 
 ---
 
-## 🎮 2. Quick Start & How to Play
+## 🎮 1. Gameplay Features (Most Wanted 2005 Inspired)
 
-### Option A: One-Click Windows Launcher
-Simply double-click **`start.bat`** in the project folder. It will:
-1. Start the Node.js backend ad server on port `3000`.
-2. Automatically open the Game Client: `http://localhost:3000/`
-3. Automatically open the Ad Dashboard: `http://localhost:3000/dashboard.html`
+### 🏎️ Hero Car: BMW M3 GTR Livery
+* **Iconic Paint & Vinyl**: Metallic Silver body with bold Cobalt Blue dual racing stripes on hood, roof, trunk, and door flanks.
+* **Aggressive Body Kit**: Carbon fiber front splitter, widebody flared wheel arches, quad titanium exhaust tips, and GT rear wing.
+* **Underglow Neon**: Real-time ground lighting illuminating the asphalt in cyan, gold, green, or red.
 
-### Option B: Terminal Command
-```bash
-# In the project directory:
-node server.js
-```
-Then visit:
-- **Game Client**: [http://localhost:3000/](http://localhost:3000/)
-- **Advertising Dashboard**: [http://localhost:3000/dashboard.html](http://localhost:3000/dashboard.html)
+### 🌅 Rockport Autumn Golden-Hour Visual Filter
+* **Iconic Sepia / Golden Bloom**: Authentic 2005 color grading with warm sunlight (`#ffb732`), volumetric autumn horizon haze, and deep asphalt reflections.
 
----
+### 🚨 Full Police Pursuit System
+* **Black & White Police Interceptors**: AI-driven police cruisers patrol the highway and city avenues.
+* **Flashing Red/Blue Lightbars & Sirens**: Roof-mounted emergency strobes, authentic siren audio, and police radio scanner chatter.
+* **Heat Levels (1 to 5)**: Violating speed limits (> 115 km/h) near cruisers or ramming city property engages the pursuit.
+* **Pursuit Cooldown / Evade**: Breaking line of sight (> 75m) triggers the green **"EVADING"** meter; evading for 8 seconds awards **Bounty Cash**!
+* **Bounty & Cost to State**: Dynamic counters tracking property damage and police takedowns.
 
-## 🕹️ 3. Vehicle Controls
+### 💥 Pursuit Breakers (Collapsible Roadside Traps)
+* **Expressway Fuel Station Canopy**: Ram the structural support pillars to violently collapse the massive canopy, crushing pursuing police cars!
+* **Downtown Scaffolding Tower**: Industrial construction frame that falls across the road to block the police convoy.
+* **Takedown Bounty**: Totaling cruisers with pursuit breakers awards `+$10,000 BOUNTY` and `+$5,000 COST TO STATE`.
 
-| Key | Action |
-| :--- | :--- |
-| **`W` / `▲ Up Arrow`** | Accelerate (Throttle) |
-| **`S` / `▼ Down Arrow`** | Brake / Reverse |
-| **`A` / `◄ Left Arrow`** | Steer Left |
-| **`D` / `► Right Arrow`** | Steer Right |
-| **`SPACEBAR`** | Handbrake / Drift (Accrues drift score) |
-| **`LEFT SHIFT`** | Nitrous Boost (NOS) |
-| **`C`** | Toggle Camera Mode (Close Chase, Far Chase, Hood Cam) |
-| **`R`** | Reset Vehicle (If stuck or collided) |
-| **`H`** | Toggle Live Ad Telemetry Panel |
+### ⏱️ Speedbreaker (Bullet-Time Slow Motion)
+* Press **`X`** on keyboard or tap **`⏱️ SLOW-MO`** on mobile:
+  * Slows down world time (`timeScale = 0.38`) for cinematic evasions.
+  * Increases steering agility to 44° for dodging roadblocks and making impossible 90° corners.
+  * Muffles audio via an active low-pass acoustic filter.
 
----
+### 🔧 Interactive 3D Tuning Garage (Safehouse)
+* Press **`G`** or tap **`🔧 GARAGE`** on mobile:
+  * **Body Paints**: Hero M3 GTR, Midnight Black, Razor Gold, Crimson Candy, Toxic Lime, Neo Purple.
+  * **Neon Underglow**: Electric Cyan, Street Amber, Acid Green, Hot Pink, Pursuit Red, Stealth Off.
+  * **Handling Presets**: Street Balanced (260 km/h), Pro Drift Spec (high slip angle), Drag Rocket Spec (310 km/h).
 
-## 📡 4. Dynamic In-Game Billboard Inventory
+### ⚔️ Blacklist 15 Rival Boss Duel
+* Press **`B`** to trigger a 1v1 Street Duel against **Blacklist #1 "RAZOR"** in his Supercharged Gold Mustang GT!
 
-| Billboard ID | Structure & Location | Active Campaign | Advertiser | CPM Rate |
-| :--- | :--- | :--- | :--- | :--- |
-| **`BB-001`** | Highway Overpass Mega Billboard (South Expressway) | *Apex Pro Grip - Street Slick Tires* | Apex Motorsport Group | ₹120.00 |
-| **`BB-002`** | Downtown Central Skyscraper Display (Neon Plaza) | *Quantum Nitro Fuel - Ignite The Streets* | Quantum Energy Corp | ₹150.00 |
-| **`BB-003`** | Waterfront Speedway Monolith (East Docks) | *HyperCharge Zero Sugar Energy Drink* | HyperCharge Beverage Co. | ₹95.00 |
-| **`BB-004`** | North Ridge Bridge Banner (Hillside Expressway) | *CyberTel 5G Ultra Gaming Network* | CyberTel Global | ₹110.00 |
+### 🚇 Highway Tunnel Section
+* Concrete highway tunnel with overhead sodium strip lights, arched portals, and acoustic exhaust reverberation.
 
 ---
 
-## 📊 5. Revenue Calculation Formula
+## 📱 2. Mobile & Tablet Virtual Controller
 
-$$\text{Gross Revenue} = \left(\frac{\text{Verified Impressions}}{1,000}\right) \times \text{CPM}$$
-
-* **Example 1**: 500,000 valid impressions at an average CPM of ₹100 = **₹50,000**.
-* **Single Impression Value**: At ₹120 CPM, each verified view credits **₹0.12** in real-time.
-
----
-
-## 🛠️ 6. REST API Endpoints
-
-- `GET /api/status`: Health check, engine version, and uptime.
-- `GET /api/ads/billboards`: List of 3D billboard positions, dimensions, and locations.
-- `GET /api/ads/active`: Active scheduled campaigns mapped to billboard entities.
-- `POST /api/ads/impression`: Validates and records viewability beacons.
-- `GET /api/admin/analytics`: Aggregated metrics, KPI totals, and recent impression streams.
-- `POST /api/admin/campaigns/switch`: Dynamic live billboard ad campaign assignment.
-- `POST /api/admin/reset-stats`: Clears impression telemetry and resets test revenue.
+When accessed from a smartphone or tablet (or toggled via **`📱 CONTROLS: ON/OFF`**):
+* **Left Thumb**: Ergonomic ◄ **LEFT** and ► **RIGHT** steering buttons.
+* **Right Thumb**: ▲ **GAS** (Green pedal), ▼ **BRAKE** (Red pedal), **⚡ DRIFT** (Amber button), and **🚀 NOS** (Cyan button).
+* **Power Row**: **⏱️ SLOW-MO** (Speedbreaker bullet-time).
+* **Top Quick Action Pills**: **📷 CAM**, **🔧 GARAGE**, **🚨 POLICE**, **🔄 RESET**, **🏁 RACE**, **📊 ADS**.
+* **Multi-Touch**: Full simultaneous multi-touch support for driving, boosting, and steering simultaneously without finger conflict.
 
 ---
 
-## 🗺️ 7. Long-Term Roadmap (Phases 2 – 6)
+## 📊 3. Dynamic Billboard Advertising System
 
-- [x] **Phase 1 (Completed)**: Standalone PlayCanvas 3D city prototype, sports car, arcade physics, follow camera, procedural audio, dynamic billboard engine, impression tracking, and ad dashboard.
-- [ ] **Phase 2**: Expanded road network, traffic AI, additional vehicle classes.
-- [ ] **Phase 3**: Day/night weather transitions, interactive garages, performance tuning.
-- [ ] **Phase 4**: Third-party ad network SDK integrations (Anzu, AdInMo, Frameplay).
-- [ ] **Phase 5**: Full Most Wanted Police Chase system (Patrols, Heat Levels 1-5, Roadblocks, Spike Strips, Helicopter pursuit).
-- [ ] **Phase 6**: Cross-platform packaging: Windows (.EXE via Electron/Neutralino) & Android (.APK via Capacitor/Cordova).
+### In-Game 3D Billboards
+1. **`BB-001`**: Highway Overpass Mega Billboard (South Expressway)
+2. **`BB-002`**: Downtown Central Skyscraper Curved Display (Neon Plaza)
+3. **`BB-003`**: Waterfront Speedway Monolith (East Docks)
+4. **`BB-004`**: North Ridge Bridge Banner (Hillside Expressway)
 
+### IAB / MRC Viewability Verification Standard
+* **Camera Frustum Test**: Viewport projection `[0..1, 0..1]` in front of camera plane.
+* **Distance Threshold**: Valid only within **85 meters**.
+* **Facing Angle Check**: Evaluates billboard normal vector (rejects viewing from behind or angles > 75°).
+* **Dwell Time Requirement**: Requires **≥ 1.5 seconds** continuous line-of-sight visibility.
+* **Anti-Fraud Cooldown**: 15-second per-billboard cooldown per session.
+
+### Revenue Calculation Formula
+$$\text{Gross Revenue} = \left(\frac{\text{Valid Impressions}}{1,000}\right) \times \text{CPM}$$
+
+---
+
+## 🕹️ 4. Controls Master Reference
+
+| Action | PC Keyboard | Mobile Screen |
+| :--- | :--- | :--- |
+| **Accelerate** | `W` / `▲ Up Arrow` | **▲ GAS** (Green Pedal) |
+| **Brake / Reverse** | `S` / `▼ Down Arrow` | **▼ BRAKE** (Red Pedal) |
+| **Steer Left / Right** | `A` / `D` | **◄ LEFT** / **► RIGHT** |
+| **Handbrake Drift** | `SPACEBAR` | **⚡ DRIFT** |
+| **Nitrous Boost** | `LEFT SHIFT` | **🚀 NOS** |
+| **Speedbreaker (Slow-Mo)** | `X` | **⏱️ SLOW-MO** |
+| **Tuning Garage** | `G` | **🔧 GARAGE** |
+| **Trigger Police Pursuit** | `P` | **🚨 POLICE** |
+| **Blacklist 1v1 Boss Duel** | `B` | `[B] Key` |
+| **Street Sprint Race** | `E` | **🏁 RACE** |
+| **Camera View** | `C` | **📷 CAM** |
+| **Reset Vehicle** | `R` | **🔄 RESET** |
+| **Ad Telemetry Panel** | `H` | **📊 ADS** |
+
+---
+
+## 🚀 5. How to Launch & Play
+
+### Local Play:
+1. Double click **`start.bat`** or run:
+   ```bash
+   node server.js
+   ```
+2. Open:
+   * **3D Game Client**: [http://localhost:3000/](http://localhost:3000/)
+   * **Ad Operations Dashboard**: [http://localhost:3000/dashboard.html](http://localhost:3000/dashboard.html)
+
+### Free Cloud Deployment:
+1. Connect this repository ([https://github.com/ashutosh0000gupta-byte/NEON-PURSUIT](https://github.com/ashutosh0000gupta-byte/NEON-PURSUIT)) on **Render.com**.
+2. Select **Web Service**, set Build Command: `npm install`, Start Command: `node server.js`.
+3. Get your live free HTTPS link (e.g. `https://neon-pursuit.onrender.com`) accessible from any browser worldwide!

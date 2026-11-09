@@ -103,15 +103,25 @@
     // 7a. Instantiate Mobile Touch Virtual Controller
     const mobileControls = window.MobileControlsManager ? new MobileControlsManager() : null;
 
-    // 7b. Instantiate Civilian Traffic, Street Racing & Police Pursuit
+    // 7b. Instantiate Civilian Traffic, Street Racing, Police Pursuit, Pursuit Breakers & Garage
     const traffic = window.TrafficManager ? new TrafficManager(app, audio) : null;
     const race = window.RaceManager ? new RaceManager(app, audio, hud) : null;
     const police = window.PoliceManager ? new PoliceManager(app, audio, hud) : null;
+    const pursuitBreakers = window.PursuitBreakerManager ? new PursuitBreakerManager(app, audio, hud, police) : null;
+    const garage = window.TuningGarageManager ? new TuningGarageManager(vehicle) : null;
+    const blacklist = window.BlacklistRivalManager ? new BlacklistRivalManager(app, audio, hud) : null;
 
     // Press 'P' to trigger Police Pursuit
     window.addEventListener('keydown', (e) => {
       if ((e.key === 'p' || e.key === 'P') && police) {
         police.triggerPursuit('HEAT 1 DISPATCH: 10-41 SUSPECT SIGHTED');
+      }
+    });
+
+    // Press 'B' to trigger 1v1 Blacklist Boss Duel
+    window.addEventListener('keydown', (e) => {
+      if ((e.key === 'b' || e.key === 'B') && blacklist && !blacklist.raceActive) {
+        blacklist.startDuel(vehicle);
       }
     });
 
@@ -180,10 +190,12 @@
       // C. Update Ad Viewability Tracking Engine
       adTracker.update(scaledDt, vehicle.speedKmh);
 
-      // C2. Update Civilian Traffic, Street Race & Police Pursuit
+      // C2. Update Civilian Traffic, Street Race, Police Pursuit, Breakers & Blacklist
       if (traffic) traffic.update(scaledDt, vehicle);
       if (race) race.update(scaledDt, vehicle);
       if (police) police.update(scaledDt, vehicle);
+      if (pursuitBreakers) pursuitBreakers.update(scaledDt, vehicle);
+      if (blacklist) blacklist.update(scaledDt, vehicle);
 
       // D. Update HUD UI & Mini-Map Radar
       hud.update(vehicle, billboards, police);

@@ -33,6 +33,40 @@
       "valid": true,
       "reason": "PASSED_ALL_CRITERIA",
       "timestamp": "2026-11-09T16:09:55.701Z"
+    },
+    {
+      "id": "IMP-IQJIQVG",
+      "billboardId": "BB-004",
+      "campaignId": "CAMP-004",
+      "campaignName": "CyberTel 5G Ultra Gaming Network",
+      "advertiser": "CyberTel Global",
+      "cpm": 110,
+      "revenueEarned": 0.11,
+      "dwellTime": 1.5,
+      "distance": 44.8,
+      "facingAngle": 16.1,
+      "speed": -12.7,
+      "sessionId": "driver_bn4vgfm",
+      "valid": true,
+      "reason": "PASSED_ALL_CRITERIA",
+      "timestamp": "2026-11-09T16:26:28.388Z"
+    },
+    {
+      "id": "IMP-ANH4ZA1",
+      "billboardId": "BB-004",
+      "campaignId": "CAMP-004",
+      "campaignName": "CyberTel 5G Ultra Gaming Network",
+      "advertiser": "CyberTel Global",
+      "cpm": 110,
+      "revenueEarned": 0.11,
+      "dwellTime": 1.5,
+      "distance": 50.2,
+      "facingAngle": 14.4,
+      "speed": 0,
+      "sessionId": "driver_bn4vgfm",
+      "valid": true,
+      "reason": "PASSED_ALL_CRITERIA",
+      "timestamp": "2026-11-09T16:27:00.913Z"
     }
   ]
 }

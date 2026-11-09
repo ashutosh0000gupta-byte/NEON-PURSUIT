@@ -21,6 +21,46 @@
 
     const resetBtn = document.getElementById('btn-reset-stats');
     if (resetBtn) resetBtn.addEventListener('click', confirmResetStats);
+
+    // Modal Create Campaign
+    const modal = document.getElementById('modal-create-campaign');
+    const openModalBtn = document.getElementById('btn-create-campaign');
+    const closeModalBtn = document.getElementById('modal-close');
+    const cancelModalBtn = document.getElementById('modal-cancel');
+    const form = document.getElementById('form-new-campaign');
+
+    if (openModalBtn) openModalBtn.onclick = () => modal.classList.add('active');
+    if (closeModalBtn) closeModalBtn.onclick = () => modal.classList.remove('active');
+    if (cancelModalBtn) cancelModalBtn.onclick = () => modal.classList.remove('active');
+
+    if (form) {
+      form.onsubmit = async (e) => {
+        e.preventDefault();
+        const payload = {
+          name: document.getElementById('camp-name').value,
+          advertiser: document.getElementById('camp-advertiser').value,
+          billboardId: document.getElementById('camp-billboard').value,
+          cpm: parseFloat(document.getElementById('camp-cpm').value),
+          image: document.getElementById('camp-image').value,
+          budget: parseFloat(document.getElementById('camp-budget').value)
+        };
+
+        try {
+          const res = await fetch('/api/admin/campaigns/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const result = await res.json();
+          alert(result.message || 'Campaign launched and billboard updated!');
+          modal.classList.remove('active');
+          form.reset();
+          fetchAnalytics();
+        } catch (err) {
+          alert('Failed to create campaign: ' + err.message);
+        }
+      };
+    }
   }
 
   // Fetch real-time analytics from server

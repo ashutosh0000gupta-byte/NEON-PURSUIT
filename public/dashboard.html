@@ -20,6 +20,7 @@
     </div>
 
     <div class="header-actions">
+      <button id="btn-create-campaign" class="btn btn-primary" style="background: linear-gradient(90deg, #ff8c00, #ff2200); color: #fff;">➕ NEW CAMPAIGN</button>
       <button id="btn-refresh" class="btn btn-secondary">🔄 REFRESH</button>
       <button id="btn-reset-stats" class="btn btn-danger">🗑️ RESET STATS</button>
       <a href="/" target="_blank" class="btn btn-primary">🏎️ LAUNCH 3D GAME</a>
@@ -116,6 +117,59 @@
       </div>
     </section>
   </main>
+
+  <!-- Modal: Create & Launch New Ad Campaign -->
+  <div class="dash-modal-overlay" id="modal-create-campaign">
+    <div class="dash-modal">
+      <div class="modal-header">
+        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 16px; color: #00f7ff;">🚀 LAUNCH NEW IN-GAME AD CAMPAIGN</h3>
+        <button class="modal-close-btn" id="modal-close">&times;</button>
+      </div>
+      <form id="form-new-campaign" class="modal-form">
+        <div class="form-group">
+          <label class="form-lbl">Campaign Name</label>
+          <input type="text" id="camp-name" class="form-input" placeholder="e.g. Red Bull Midnight Drift Challenge" required>
+        </div>
+        <div class="form-group">
+          <label class="form-lbl">Advertiser Company</label>
+          <input type="text" id="camp-advertiser" class="form-input" placeholder="e.g. Red Bull Global" required>
+        </div>
+        <div style="display: flex; gap: 14px;">
+          <div class="form-group" style="flex: 1;">
+            <label class="form-lbl">Target Billboard</label>
+            <select id="camp-billboard" class="form-input">
+              <option value="BB-001">BB-001: Highway Overpass Mega Billboard</option>
+              <option value="BB-002">BB-002: Downtown Central Skyscraper Display</option>
+              <option value="BB-003">BB-003: Waterfront Speedway Monolith</option>
+              <option value="BB-004">BB-004: North Ridge Bridge Banner</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label class="form-lbl">CPM Rate (₹ per 1k views)</label>
+            <input type="number" id="camp-cpm" class="form-input" value="140" min="50" max="1000" step="5" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-lbl">Billboard Banner Graphic</label>
+          <select id="camp-image" class="form-input">
+            <option value="/assets/ads/ad_apex_tires.svg">Apex Racing Tires (Red/Orange)</option>
+            <option value="/assets/ads/ad_quantum_fuel.svg">Quantum Nitro Fuel (Cyan/Blue)</option>
+            <option value="/assets/ads/ad_hyper_energy.svg">HyperCharge Energy Drink (Purple/Lime)</option>
+            <option value="/assets/ads/ad_cyber_tel.svg">CyberTel 5G Gaming (Gold/Navy)</option>
+            <option value="/assets/ads/default_ad.svg">Default Sponsor Board</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-lbl">Advertising Budget (₹)</label>
+          <input type="number" id="camp-budget" class="form-input" value="50000" step="5000">
+        </div>
+        <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 20px;">
+          <button type="button" class="btn btn-secondary" id="modal-cancel">CANCEL</button>
+          <button type="submit" class="btn btn-primary">ACTIVATE CAMPAIGN →</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <script src="/js/dashboard.js"></script>
 </body>

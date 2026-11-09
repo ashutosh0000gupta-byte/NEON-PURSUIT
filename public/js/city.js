@@ -16,6 +16,7 @@ class CityBuilder {
     this.buildHighwayOverpass();
     this.buildStreetlights();
     this.buildBarriers();
+    this.buildHighwayTunnel();
   }
 
   initMaterials() {
@@ -371,6 +372,57 @@ class CityBuilder {
     });
 
     console.log('🏙️ 3D City Environment & Roadway Grid Assembled');
+  }
+
+  // 3D Concrete Highway Tunnel with Ceiling Sodium Lights (NFS Most Wanted Rosewood Tunnel)
+  buildHighwayTunnel() {
+    const tunnelZStart = 70;
+    const tunnelLength = 65;
+    const tunnelCenterZ = tunnelZStart + (tunnelLength / 2);
+    const tunnelHeight = 8.5;
+    const tunnelWidth = 28;
+
+    // Concrete Sidewalls
+    [-tunnelWidth / 2, tunnelWidth / 2].forEach((wx, idx) => {
+      const wall = new pc.Entity('TunnelWall_' + idx);
+      wall.addComponent('render', { type: 'box', material: this.materials.sidewalk });
+      wall.setLocalScale(2.5, tunnelHeight, tunnelLength);
+      wall.setLocalPosition(wx, tunnelHeight / 2, tunnelCenterZ);
+      this.root.addChild(wall);
+    });
+
+    // Concrete Arched Roof
+    const roof = new pc.Entity('TunnelRoof');
+    roof.addComponent('render', { type: 'box', material: this.materials.sidewalk });
+    roof.setLocalScale(tunnelWidth + 4, 1.8, tunnelLength);
+    roof.setLocalPosition(0, tunnelHeight, tunnelCenterZ);
+    this.root.addChild(roof);
+
+    // Glowing Ceiling Lights running through tunnel
+    const ceilingLightMat = new pc.StandardMaterial();
+    ceilingLightMat.emissive = new pc.Color(2.5, 1.8, 0.4); // Sodium Amber
+    ceilingLightMat.update();
+
+    for (let tz = tunnelZStart + 8; tz < tunnelZStart + tunnelLength - 4; tz += 12) {
+      const lamp = new pc.Entity('TunnelCeilingLight_' + tz);
+      lamp.addComponent('render', { type: 'box', material: ceilingLightMat });
+      lamp.setLocalScale(6.0, 0.35, 1.2);
+      lamp.setLocalPosition(0, tunnelHeight - 0.5, tz);
+      this.root.addChild(lamp);
+
+      const light = new pc.Entity('TunnelLightSource_' + tz);
+      light.addComponent('light', {
+        type: 'point',
+        color: new pc.Color(1.0, 0.82, 0.45),
+        intensity: 1.5,
+        range: 18,
+        castShadows: false
+      });
+      light.setLocalPosition(0, tunnelHeight - 1.2, tz);
+      this.root.addChild(light);
+    }
+
+    console.log('🚇 Highway Tunnel Vault Assembled');
   }
 }
 

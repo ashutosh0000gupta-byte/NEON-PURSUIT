@@ -1,0 +1,49 @@
+{
+  "records": [
+    {
+      "rank": 1,
+      "driver": "Razor #1",
+      "car": "Ford Mustang GT Supercharged",
+      "bounty": 1500000,
+      "bestSprintTime": 38.45,
+      "driftScore": 48500,
+      "date": "2026-11-01"
+    },
+    {
+      "rank": 2,
+      "driver": "Toru Sato 'Bull' #2",
+      "car": "Mercedes-Benz SLR McLaren",
+      "bounty": 1050000,
+      "bestSprintTime": 40.12,
+      "driftScore": 42000,
+      "date": "2026-11-02"
+    },
+    {
+      "rank": 3,
+      "driver": "Ronald McCrea 'Ronnie' #3",
+      "car": "Aston Martin DB9",
+      "bounty": 840000,
+      "bestSprintTime": 41.80,
+      "driftScore": 38500,
+      "date": "2026-11-03"
+    },
+    {
+      "rank": 4,
+      "driver": "Joe Vega 'JV' #4",
+      "car": "Dodge Viper SRT-10",
+      "bounty": 620000,
+      "bestSprintTime": 43.15,
+      "driftScore": 34000,
+      "date": "2026-11-04"
+    },
+    {
+      "rank": 5,
+      "driver": "Hector Domingo 'Ming' #5",
+      "car": "Lamborghini Gallardo",
+      "bounty": 480000,
+      "bestSprintTime": 44.50,
+      "driftScore": 31000,
+      "date": "2026-11-05"
+    }
+  ]
+}

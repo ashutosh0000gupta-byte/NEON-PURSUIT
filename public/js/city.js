@@ -20,11 +20,45 @@ class CityBuilder {
   }
 
   initMaterials() {
-    // 1. Dark Asphalt Road Material
+    // Procedural Asphalt Tarmac Texture with Micro-Aggregates
+    const cvs = document.createElement('canvas');
+    cvs.width = 128;
+    cvs.height = 128;
+    const ctx = cvs.getContext('2d');
+    ctx.fillStyle = '#18191c';
+    ctx.fillRect(0, 0, 128, 128);
+    const imgData = ctx.getImageData(0, 0, 128, 128);
+    const data = imgData.data;
+    for (let i = 0; i < data.length; i += 4) {
+      const noise = (Math.random() - 0.5) * 36;
+      const val = Math.max(16, Math.min(52, 30 + noise));
+      data[i] = val;
+      data[i + 1] = val + (Math.random() * 4 - 2);
+      data[i + 2] = val + 4;
+      data[i + 3] = 255;
+    }
+    ctx.putImageData(imgData, 0, 0);
+
+    const asphaltTex = new pc.Texture(this.app.graphicsDevice, {
+      width: 128,
+      height: 128,
+      format: pc.PIXELFORMAT_R8_G8_B8_A8,
+      minFilter: pc.FILTER_LINEAR,
+      magFilter: pc.FILTER_LINEAR,
+      addressU: pc.ADDRESS_REPEAT,
+      addressV: pc.ADDRESS_REPEAT
+    });
+    asphaltTex.setSource(cvs);
+
+    // 1. Wet Asphalt Road Material (NFS Most Wanted Autumn Reflection Sheen)
     const asphaltMat = new pc.StandardMaterial();
-    asphaltMat.diffuse = new pc.Color(0.12, 0.13, 0.15);
-    asphaltMat.shininess = 35;
-    asphaltMat.specular = new pc.Color(0.2, 0.2, 0.22);
+    asphaltMat.diffuseMap = asphaltTex;
+    asphaltMat.diffuseMapTiling = new pc.Vec2(50, 50);
+    asphaltMat.diffuse = new pc.Color(0.85, 0.85, 0.9);
+    asphaltMat.specular = new pc.Color(0.58, 0.52, 0.42); // Golden-hour autumn sky reflections
+    asphaltMat.shininess = 65;
+    asphaltMat.metalness = 0.28;
+    asphaltMat.useMetalness = true;
     asphaltMat.update();
     this.materials.asphalt = asphaltMat;
 

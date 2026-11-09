@@ -110,6 +110,23 @@
     const pursuitBreakers = window.PursuitBreakerManager ? new PursuitBreakerManager(app, audio, hud, police) : null;
     const garage = window.TuningGarageManager ? new TuningGarageManager(vehicle) : null;
     const blacklist = window.BlacklistRivalManager ? new BlacklistRivalManager(app, audio, hud) : null;
+    const leaderboard = window.LeaderboardManager ? new LeaderboardManager() : null;
+
+    // Global references for Leaderboard & Blacklist integrations
+    window.playerVehicleInstance = vehicle;
+    window.policeInstance = police;
+    window.raceInstance = race;
+
+    // 7c. Realistic Particle, Tire Smoke & Skidmark VFX System
+    window.gameParticles = window.ParticleVFXSystem ? new ParticleVFXSystem(app) : null;
+
+    // Press 'M' to toggle Pursuit Electronic Soundtrack
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'm' || e.key === 'M') {
+        const isMusicOn = audio.toggleMusic();
+        hud.showToast(`🎵 SOUNDTRACK: ${isMusicOn ? 'ENABLED' : 'MUTED'}`);
+      }
+    });
 
     // Press 'P' to trigger Police Pursuit
     window.addEventListener('keydown', (e) => {
@@ -193,9 +210,15 @@
       // C2. Update Civilian Traffic, Street Race, Police Pursuit, Breakers & Blacklist
       if (traffic) traffic.update(scaledDt, vehicle);
       if (race) race.update(scaledDt, vehicle);
-      if (police) police.update(scaledDt, vehicle);
+      if (police) {
+        police.update(scaledDt, vehicle);
+        if (audio) audio.setPursuitIntensity(police.heatLevel, police.isPursuitActive);
+      }
       if (pursuitBreakers) pursuitBreakers.update(scaledDt, vehicle);
       if (blacklist) blacklist.update(scaledDt, vehicle);
+
+      // C3. Update Realistic Particles, Burnout Smoke & Asphalt Skidmarks
+      if (window.gameParticles) window.gameParticles.update(scaledDt, vehicle);
 
       // D. Update HUD UI & Mini-Map Radar
       hud.update(vehicle, billboards, police);
@@ -204,7 +227,7 @@
     console.log('✅ NEON PURSUIT Ready to Race');
   }
 
-  // Smooth Chase Camera with Speed-FOV expansion and Drift Lag
+  // Smooth Chase Camera with Speed-FOV expansion, Drift Lag & High-Speed Camera Shake
   function updateCamera(dt, camera, vehicle, cfg, camPosTracker) {
     const carPos = vehicle.position;
     const carHeadingRad = (vehicle.heading + vehicle.driftAngle * 0.45) * pc.math.DEG_TO_RAD;
@@ -214,11 +237,21 @@
     const behindZ = carPos.z - Math.cos(carHeadingRad) * cfg.dist;
     const idealY = carPos.y + cfg.height;
 
+    // Realistic camera shake at high speeds, during nitro boost and hard drifting
+    let shakeIntensity = 0;
+    if (vehicle.isNitro) shakeIntensity += 0.08;
+    if (Math.abs(vehicle.speedKmh) > 200) shakeIntensity += (Math.abs(vehicle.speedKmh) - 200) * 0.0008;
+    if (vehicle.isDrifting) shakeIntensity += 0.04;
+
+    const shakeX = (Math.random() - 0.5) * shakeIntensity;
+    const shakeY = (Math.random() - 0.5) * shakeIntensity * 0.7;
+    const shakeZ = (Math.random() - 0.5) * shakeIntensity;
+
     // Smooth lerp camera position
     const lerpSpeed = 8.5;
-    camPosTracker.x = pc.math.lerp(camPosTracker.x, behindX, dt * lerpSpeed);
-    camPosTracker.y = pc.math.lerp(camPosTracker.y, idealY, dt * (lerpSpeed * 1.2));
-    camPosTracker.z = pc.math.lerp(camPosTracker.z, behindZ, dt * lerpSpeed);
+    camPosTracker.x = pc.math.lerp(camPosTracker.x, behindX + shakeX, dt * lerpSpeed);
+    camPosTracker.y = pc.math.lerp(camPosTracker.y, idealY + shakeY, dt * (lerpSpeed * 1.2));
+    camPosTracker.z = pc.math.lerp(camPosTracker.z, behindZ + shakeZ, dt * lerpSpeed);
     camera.setPosition(camPosTracker);
 
     // Look target: Point slightly ahead of car hood

@@ -263,6 +263,7 @@ class Vehicle {
       if (!this.nitroFlames) this.nitroFlames = [];
       this.nitroFlames.push(flame);
     });
+    this.exhaustTips = this.exhausts;
 
     // Underglow Neon Ground Light
     const underglow = new pc.Entity('UnderglowLight');
@@ -531,6 +532,7 @@ class Vehicle {
 
     this.position.x += forwardX * this.speed * dt;
     this.position.z += forwardZ * this.speed * dt;
+    this.velocity.set(forwardX * this.speed, 0, forwardZ * this.speed);
 
     // Keep car grounded on road plane
     this.position.y = 0.42;
@@ -579,7 +581,7 @@ class Vehicle {
     this.materials.taillight.emissive = tailEmissive;
     this.materials.taillight.update();
 
-    // 9b. NITRO EXHAUST FLAMES
+    // 9b. NITRO EXHAUST FLAMES & BACKFIRE
     if (this.nitroFlames) {
       this.nitroFlames.forEach(f => {
         f.enabled = this.isNitro;
@@ -588,6 +590,14 @@ class Vehicle {
         }
       });
     }
+
+    // Trigger visual flame spike on sudden throttle lift-off at high RPM
+    if (this.prevThrottle > 0.8 && this.throttle < 0.2 && this.rpm > 4500) {
+      if (window.gameParticles) {
+        window.gameParticles.triggerBackfireSpike(this);
+      }
+    }
+    this.prevThrottle = this.throttle;
 
     // 10. UPDATE AUDIO ENGINE
     if (audio) {

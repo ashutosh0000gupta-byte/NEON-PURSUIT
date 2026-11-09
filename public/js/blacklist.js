@@ -227,3 +227,4 @@ class BlacklistRivalManager {
 }
 
 window.BlacklistRivalManager = BlacklistRivalManager;
+

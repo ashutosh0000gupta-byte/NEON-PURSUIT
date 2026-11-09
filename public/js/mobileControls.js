@@ -57,6 +57,9 @@ class MobileControlsManager {
         <button class="m-pill-btn" id="m-btn-cam">📷 CAM</button>
         <button class="m-pill-btn" id="m-btn-garage" style="color: #ff8c00; border-color: rgba(255, 140, 0, 0.4);">🔧 GARAGE</button>
         <button class="m-pill-btn" id="m-btn-cop" style="color: #ff3333; border-color: rgba(255, 50, 50, 0.4);">🚨 POLICE</button>
+        <button class="m-pill-btn" id="m-btn-razor" style="color: #ffd700; border-color: rgba(255, 215, 0, 0.4);">⚡ RAZOR</button>
+        <button class="m-pill-btn" id="m-btn-ranks" style="color: #00f0ff; border-color: rgba(0, 240, 255, 0.4);">🏆 RANKS</button>
+        <button class="m-pill-btn" id="m-btn-music">🎵 MUSIC</button>
         <button class="m-pill-btn" id="m-btn-reset">🔄 RESET</button>
         <button class="m-pill-btn" id="m-btn-race">🏁 RACE</button>
         <button class="m-pill-btn" id="m-btn-ads">📊 ADS</button>
@@ -200,6 +203,21 @@ class MobileControlsManager {
     // Police pursuit button
     bindTapAction('m-btn-cop', () => {
       window.dispatchEvent(new KeyboardEvent('keydown', { key: 'p', bubbles: true }));
+    });
+
+    // Blacklist Razor duel button
+    bindTapAction('m-btn-razor', () => {
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'b', bubbles: true }));
+    });
+
+    // Leaderboard ranks button
+    bindTapAction('m-btn-ranks', () => {
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'l', bubbles: true }));
+    });
+
+    // Music toggle button
+    bindTapAction('m-btn-music', () => {
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'm', bubbles: true }));
     });
 
     // Reset button

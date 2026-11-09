@@ -25,6 +25,14 @@ class GameAudio {
     // Nitro Node
     this.nitroGain = null;
 
+    // Music Synthesizer (Iconic NFS Most Wanted Pursuit Drum & Bass)
+    this.musicGain = null;
+    this.musicPlaying = false;
+    this.musicMuted = false;
+    this.bpm = 140;
+    this.musicTimer = null;
+    this.currentStep = 0;
+
     // Exhaust Pop Timer
     this.lastThrottle = 0;
     this.noiseBuffer = null;
@@ -123,8 +131,14 @@ class GameAudio {
       this.nitroGain.connect(this.master);
       nitroNoise.start();
 
+      // --- 4. PURSUIT MUSIC SYNTHESIZER ---
+      this.musicGain = this.ctx.createGain();
+      this.musicGain.gain.value = 0.45;
+      this.musicGain.connect(this.master);
+
       this.initialized = true;
-      console.log('🏁 Web Audio Engine Initialized (Phase 2)');
+      console.log('🏁 Web Audio Engine Initialized with Most Wanted D&B Synthesizer');
+      this.startPursuitMusic();
     } catch (e) {
       console.warn('AudioContext initialization failed or blocked:', e);
     }
@@ -328,6 +342,198 @@ class GameAudio {
 
     osc.start(now);
     osc.stop(now + 0.55);
+  }
+
+  // ==========================================
+  // DYNAMIC NFS: MOST WANTED PURSUIT D&B BEAT
+  // ==========================================
+  startPursuitMusic() {
+    if (!this.initialized || !this.ctx || this.musicPlaying) return;
+    this.musicPlaying = true;
+    this.nextNoteTime = this.ctx.currentTime + 0.1;
+    this.currentStep = 0;
+
+    const scheduleLoop = () => {
+      if (!this.musicPlaying) return;
+
+      while (this.nextNoteTime < this.ctx.currentTime + 0.25) {
+        this.scheduleBeatStep(this.nextNoteTime, this.currentStep);
+        const secondsPerStep = 60.0 / (this.bpm * 4); // 16th note steps
+        this.nextNoteTime += secondsPerStep;
+        this.currentStep = (this.currentStep + 1) % 32; // 2-bar loop
+      }
+
+      this.musicTimer = setTimeout(scheduleLoop, 65);
+    };
+
+    scheduleLoop();
+  }
+
+  stopPursuitMusic() {
+    this.musicPlaying = false;
+    if (this.musicTimer) {
+      clearTimeout(this.musicTimer);
+      this.musicTimer = null;
+    }
+  }
+
+  toggleMusic() {
+    this.musicMuted = !this.musicMuted;
+    if (this.musicGain) {
+      this.musicGain.gain.setValueAtTime(this.musicMuted ? 0 : 0.45, this.ctx.currentTime);
+    }
+    console.log(`🎵 Pursuit Soundtrack: ${this.musicMuted ? 'MUTED' : 'UNMUTED'}`);
+    return !this.musicMuted;
+  }
+
+  setPursuitIntensity(heatLevel = 1, isPursuit = false) {
+    if (!this.initialized || !this.ctx || this.musicMuted || !this.musicGain) return;
+    const now = this.ctx.currentTime;
+    if (isPursuit) {
+      // Speed up BPM slightly from 140 up to 154 at Heat 5
+      this.bpm = 140 + (heatLevel - 1) * 3.5;
+      const targetGain = 0.45 + (heatLevel - 1) * 0.05;
+      this.musicGain.gain.setTargetAtTime(targetGain, now, 0.2);
+    } else {
+      this.bpm = 138;
+      this.musicGain.gain.setTargetAtTime(0.35, now, 0.3);
+    }
+  }
+
+  scheduleBeatStep(time, step) {
+    if (this.musicMuted) return;
+
+    // 16th note step index (0-31)
+    const beatInBar = step % 16;
+
+    // Heavy Kick Drum on beats 0, 8, 11 (Breakbeat D&B pattern)
+    if (beatInBar === 0 || beatInBar === 8 || beatInBar === 11 || (step === 26)) {
+      this.playKick(time);
+    }
+
+    // Snare Drum on beats 4 and 12
+    if (beatInBar === 4 || beatInBar === 12) {
+      this.playSnare(time);
+    }
+
+    // Hi-Hat Shuffle on every 2nd 16th note + ghost notes
+    if (beatInBar % 2 === 0 || beatInBar === 7 || beatInBar === 15) {
+      const isAccent = beatInBar === 2 || beatInBar === 10;
+      this.playHiHat(time, isAccent);
+    }
+
+    // Driving Saw Bassline (Iconic D-Minor MW Pursuit Progression)
+    // D2 (73.4Hz), F2 (87.3Hz), G2 (98Hz), A#1 (58.3Hz), C2 (65.4Hz)
+    const bassPattern = [
+      73.4,  0, 73.4,  0, 73.4, 87.3, 73.4,  0,
+      98.0,  0, 73.4,  0, 58.3,    0, 65.4,  0,
+      73.4,  0, 73.4,  0, 73.4, 87.3, 73.4,  0,
+      98.0,  0, 73.4, 87.3, 98.0, 110.0, 87.3, 73.4
+    ];
+
+    const noteFreq = bassPattern[step];
+    if (noteFreq > 0) {
+      this.playBassNote(time, noteFreq);
+    }
+  }
+
+  playKick(time) {
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(155, time);
+    osc.frequency.exponentialRampToValueAtTime(38, time + 0.12);
+
+    gain.gain.setValueAtTime(0.42, time);
+    gain.gain.exponentialRampToValueAtTime(0.001, time + 0.15);
+
+    osc.connect(gain);
+    gain.connect(this.musicGain);
+
+    osc.start(time);
+    osc.stop(time + 0.15);
+  }
+
+  playSnare(time) {
+    // Noise snap
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = this.noiseBuffer;
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 1800;
+    filter.Q.value = 1.2;
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.3, time);
+    gain.gain.exponentialRampToValueAtTime(0.01, time + 0.14);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.musicGain);
+
+    noise.start(time);
+    noise.stop(time + 0.14);
+
+    // Body tone
+    const osc = this.ctx.createOscillator();
+    const oscGain = this.ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(210, time);
+    osc.frequency.exponentialRampToValueAtTime(100, time + 0.08);
+
+    oscGain.gain.setValueAtTime(0.25, time);
+    oscGain.gain.exponentialRampToValueAtTime(0.005, time + 0.09);
+
+    osc.connect(oscGain);
+    oscGain.connect(this.musicGain);
+
+    osc.start(time);
+    osc.stop(time + 0.09);
+  }
+
+  playHiHat(time, isAccent = false) {
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = this.noiseBuffer;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'highpass';
+    filter.frequency.value = 7500;
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(isAccent ? 0.16 : 0.08, time);
+    gain.gain.exponentialRampToValueAtTime(0.002, time + (isAccent ? 0.07 : 0.04));
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.musicGain);
+
+    noise.start(time);
+    noise.stop(time + 0.08);
+  }
+
+  playBassNote(time, freq) {
+    const osc = this.ctx.createOscillator();
+    const filter = this.ctx.createBiquadFilter();
+    const gain = this.ctx.createGain();
+
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(freq, time);
+
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(450, time);
+    filter.frequency.exponentialRampToValueAtTime(180, time + 0.16);
+    filter.Q.value = 4.0;
+
+    gain.gain.setValueAtTime(0.28, time);
+    gain.gain.exponentialRampToValueAtTime(0.01, time + 0.18);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.musicGain);
+
+    osc.start(time);
+    osc.stop(time + 0.18);
   }
 }
 

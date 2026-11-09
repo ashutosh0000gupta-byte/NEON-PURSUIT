@@ -508,6 +508,18 @@ class GameHUD {
     }
   }
 
+  // Generic HUD Toast Notification
+  showToast(msg) {
+    if (!this.adToast) return;
+    this.toastDesc.textContent = msg;
+    this.toastPayout.textContent = 'SYSTEM NOTIFICATION';
+    this.adToast.classList.add('show');
+    clearTimeout(this.toastTimeout);
+    this.toastTimeout = setTimeout(() => {
+      this.adToast.classList.remove('show');
+    }, 2800);
+  }
+
   // Show Toast Popup
   showImpressionToast(data) {
     this.toastDesc.textContent = `${data.campaign?.name || 'Billboard Ad'} (${data.billboard?.id})`;

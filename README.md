@@ -50,6 +50,22 @@
 ### 🚇 Highway Tunnel Section
 * Concrete highway tunnel with overhead sodium strip lights, arched portals, and acoustic exhaust reverberation.
 
+### 💨 Realistic Tire Smoke, Burnouts & Asphalt Skid Marks
+* **Volumetric Tire Smoke**: Billowy, expanding alpha-blended smoke clouds erupt from the rear tires during launch burnouts, high-angle drifting, and emergency braking.
+* **Persistent Asphalt Skid Marks**: Realistic dark rubber tire ribbons deposited in real-time onto the wet road surface during hard drifts and lock-ups.
+* **Exhaust Backfire Spikes & Nitro Jets**: Dynamic blue nitrous afterburner flames and violent orange overrun backfire sparks spitting from quad exhausts.
+* **Wet Asphalt PBR Grain & Reflections**: Procedurally textured tarmac with micro-aggregates and autumn golden-hour specular sheen reflecting sunlight and neon signs.
+
+### 🎵 Dynamic Electronic D&B / Rock Pursuit Soundtrack
+* **Authentic NFS Most Wanted Adrenaline Beat**: Procedural 140 BPM breakbeat drum & bass engine with heavy sub kicks, crisp snares, and driving D-minor saw bassline.
+* **Dynamic Pursuit Adaptation**: Music automatically accelerates BPM and elevates intensity as Police Heat climbs from Heat 1 to Heat 5!
+* **Soundtrack Mute Toggle**: Press **`M`** on keyboard or tap **`🎵 MUSIC`** on mobile to toggle music on/off anytime.
+
+### 🏆 Blacklist 15 Leaderboard System
+* Press **`L`** on keyboard or tap **`🏆 RANKS`** on mobile:
+  * View real-time top street racers, vehicle specs, accumulated bounty, and drift scores.
+  * **Submit My Run**: Record your street credibility directly to the server database!
+
 ---
 
 ## 📱 2. Mobile & Tablet Virtual Controller
@@ -58,7 +74,7 @@ When accessed from a smartphone or tablet (or toggled via **`📱 CONTROLS: ON/O
 * **Left Thumb**: Ergonomic ◄ **LEFT** and ► **RIGHT** steering buttons.
 * **Right Thumb**: ▲ **GAS** (Green pedal), ▼ **BRAKE** (Red pedal), **⚡ DRIFT** (Amber button), and **🚀 NOS** (Cyan button).
 * **Power Row**: **⏱️ SLOW-MO** (Speedbreaker bullet-time).
-* **Top Quick Action Pills**: **📷 CAM**, **🔧 GARAGE**, **🚨 POLICE**, **🔄 RESET**, **🏁 RACE**, **📊 ADS**.
+* **Top Quick Action Pills**: **📷 CAM**, **🔧 GARAGE**, **🚨 POLICE**, **⚡ RAZOR**, **🏆 RANKS**, **🎵 MUSIC**, **🔄 RESET**, **🏁 RACE**, **📊 ADS**.
 * **Multi-Touch**: Full simultaneous multi-touch support for driving, boosting, and steering simultaneously without finger conflict.
 
 ---
@@ -95,7 +111,9 @@ $$\text{Gross Revenue} = \left(\frac{\text{Valid Impressions}}{1,000}\right) \ti
 | **Speedbreaker (Slow-Mo)** | `X` | **⏱️ SLOW-MO** |
 | **Tuning Garage** | `G` | **🔧 GARAGE** |
 | **Trigger Police Pursuit** | `P` | **🚨 POLICE** |
-| **Blacklist 1v1 Boss Duel** | `B` | `[B] Key` |
+| **Blacklist 1v1 Boss Duel** | `B` | **⚡ RAZOR** |
+| **Blacklist Leaderboard** | `L` | **🏆 RANKS** |
+| **Toggle Pursuit Music** | `M` | **🎵 MUSIC** |
 | **Street Sprint Race** | `E` | **🏁 RACE** |
 | **Camera View** | `C` | **📷 CAM** |
 | **Reset Vehicle** | `R` | **🔄 RESET** |

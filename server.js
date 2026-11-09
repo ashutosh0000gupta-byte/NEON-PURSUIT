@@ -18,6 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const DATA_DIR = path.join(__dirname, 'data');
 const CAMPAIGNS_FILE = path.join(DATA_DIR, 'campaigns.json');
 const IMPRESSIONS_FILE = path.join(DATA_DIR, 'impressions.json');
+const LEADERBOARD_FILE = path.join(DATA_DIR, 'leaderboard.json');
 
 // Helper to load JSON safely
 function loadData(filePath, defaultData) {
@@ -374,6 +375,38 @@ app.post('/api/admin/reset-stats', (req, res) => {
   saveData(CAMPAIGNS_FILE, data);
 
   res.json({ success: true, message: 'All impression stats and cooldowns reset successfully.' });
+});
+
+// 8. Global Leaderboard Endpoints (Blacklist Rankings)
+app.get('/api/leaderboard', (req, res) => {
+  const data = loadData(LEADERBOARD_FILE, { records: [] });
+  res.json(data);
+});
+
+app.post('/api/leaderboard/submit', (req, res) => {
+  const { driver = 'Player', car = 'BMW M3 GTR', bounty = 0, bestSprintTime = 0, driftScore = 0 } = req.body;
+  const data = loadData(LEADERBOARD_FILE, { records: [] });
+
+  const newRecord = {
+    rank: 0,
+    driver: driver.slice(0, 24),
+    car: car.slice(0, 32),
+    bounty: parseInt(bounty) || 0,
+    bestSprintTime: parseFloat(bestSprintTime) || 0,
+    driftScore: parseInt(driftScore) || 0,
+    date: new Date().toISOString().split('T')[0]
+  };
+
+  data.records.push(newRecord);
+  // Sort descending by bounty
+  data.records.sort((a, b) => b.bounty - a.bounty);
+  // Recalculate ranks
+  data.records.forEach((r, idx) => r.rank = idx + 1);
+  // Keep top 25
+  data.records = data.records.slice(0, 25);
+
+  saveData(LEADERBOARD_FILE, data);
+  res.json({ success: true, message: 'Record submitted to Blacklist Leaderboard!', records: data.records });
 });
 
 // Start Server

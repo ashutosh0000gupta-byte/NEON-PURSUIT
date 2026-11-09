@@ -16,6 +16,23 @@
       "valid": true,
       "reason": "PASSED_ALL_CRITERIA",
       "timestamp": "2026-11-09T15:53:48.541Z"
+    },
+    {
+      "id": "IMP-ZCSZ9I9",
+      "billboardId": "BB-004",
+      "campaignId": "CAMP-004",
+      "campaignName": "CyberTel 5G Ultra Gaming Network",
+      "advertiser": "CyberTel Global",
+      "cpm": 110,
+      "revenueEarned": 0.11,
+      "dwellTime": 1.5,
+      "distance": 31.9,
+      "facingAngle": 31.6,
+      "speed": 67.9,
+      "sessionId": "driver_1qfhttz",
+      "valid": true,
+      "reason": "PASSED_ALL_CRITERIA",
+      "timestamp": "2026-11-09T16:09:55.701Z"
     }
   ]
 }

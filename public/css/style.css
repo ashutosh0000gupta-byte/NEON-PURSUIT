@@ -667,3 +667,370 @@ body, html {
   border-color: #00f7ff;
 }
 
+
+
+/* ============================================================
+   MOBILE TOUCH CONTROLS (VIRTUAL GAMEPAD) STYLES
+   ============================================================ */
+
+/* Floating Toggle Button */
+.touch-mode-toggle-btn {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(10, 16, 26, 0.85);
+  border: 1px solid rgba(0, 247, 255, 0.4);
+  color: #00f7ff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  z-index: 60;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+}
+
+.touch-mode-toggle-btn.active {
+  background: rgba(0, 247, 255, 0.2);
+  border-color: #00f7ff;
+  box-shadow: 0 0 15px rgba(0, 247, 255, 0.5);
+}
+
+/* Mobile Touch Overlay */
+.mobile-touch-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 40;
+  display: none;
+}
+
+.mobile-touch-overlay.active {
+  display: block;
+}
+
+/* Touch Button Base Styles */
+.m-touch-btn {
+  pointer-events: auto;
+  user-select: none;
+  touch-action: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(15, 20, 30, 0.75);
+  color: #ffffff;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+  transition: transform 0.08s ease, background 0.08s ease, box-shadow 0.08s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.m-touch-btn:active,
+.m-touch-btn.pressed {
+  transform: scale(0.92);
+}
+
+/* TOP QUICK ACTION PILLS */
+.mobile-top-actions {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+.m-pill-btn {
+  background: rgba(12, 18, 28, 0.85);
+  border: 1px solid rgba(0, 247, 255, 0.35);
+  color: #00f7ff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  transition: all 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.m-pill-btn:active {
+  background: #00f7ff;
+  color: #050810;
+  transform: scale(0.94);
+}
+
+/* ============================================================
+   BOTTOM LEFT: STEERING BUTTONS
+   ============================================================ */
+.mobile-steer-cluster {
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
+  display: flex;
+  gap: 16px;
+  pointer-events: auto;
+}
+
+.m-btn-steer {
+  width: 78px;
+  height: 78px;
+  border-radius: 18px;
+  border-color: rgba(0, 247, 255, 0.4);
+  background: linear-gradient(135deg, rgba(10, 25, 40, 0.85), rgba(5, 15, 25, 0.9));
+}
+
+.m-btn-steer .m-btn-arrow {
+  font-size: 32px;
+  color: #00f7ff;
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(0, 247, 255, 0.6);
+}
+
+.m-btn-steer .m-btn-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #88aacc;
+  margin-top: 2px;
+}
+
+.m-btn-steer.pressed {
+  background: rgba(0, 247, 255, 0.35);
+  border-color: #00f7ff;
+  box-shadow: 0 0 25px rgba(0, 247, 255, 0.7);
+}
+
+/* ============================================================
+   BOTTOM RIGHT: PEDALS & POWER CLUSTER
+   ============================================================ */
+.mobile-pedal-cluster {
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.m-power-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+.m-pedals-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+/* Drift Button */
+.m-btn-drift {
+  width: 68px;
+  height: 52px;
+  border-radius: 12px;
+  border-color: rgba(255, 183, 3, 0.5);
+  background: linear-gradient(135deg, rgba(40, 25, 5, 0.85), rgba(25, 15, 5, 0.9));
+}
+
+.m-btn-drift .m-btn-icon {
+  font-size: 20px;
+  color: #ffb703;
+  line-height: 1;
+  text-shadow: 0 0 8px #ffb703;
+}
+
+.m-btn-drift .m-btn-label {
+  font-size: 9px;
+  font-weight: 900;
+  color: #ffb703;
+  letter-spacing: 1px;
+}
+
+.m-btn-drift.pressed {
+  background: rgba(255, 183, 3, 0.4);
+  border-color: #ffb703;
+  box-shadow: 0 0 25px rgba(255, 183, 3, 0.8);
+}
+
+/* Nitro (NOS) Button */
+.m-btn-nos {
+  width: 78px;
+  height: 52px;
+  border-radius: 12px;
+  border-color: rgba(0, 247, 255, 0.6);
+  background: linear-gradient(135deg, rgba(5, 30, 45, 0.9), rgba(10, 15, 30, 0.9));
+}
+
+.m-btn-nos .m-btn-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.m-btn-nos .m-btn-label {
+  font-size: 10px;
+  font-weight: 900;
+  color: #00f7ff;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px #00f7ff;
+}
+
+.m-btn-nos.pressed {
+  background: #00f7ff;
+  color: #050810;
+  box-shadow: 0 0 30px rgba(0, 247, 255, 0.9);
+}
+
+.m-btn-nos.pressed .m-btn-label {
+  color: #050810;
+  text-shadow: none;
+}
+
+/* Brake / Reverse Pedal */
+.m-btn-brake {
+  width: 76px;
+  height: 86px;
+  border-radius: 16px;
+  border-color: rgba(255, 42, 42, 0.5);
+  background: linear-gradient(135deg, rgba(35, 10, 10, 0.9), rgba(20, 5, 5, 0.95));
+}
+
+.m-btn-brake .m-pedal-icon {
+  font-size: 28px;
+  color: #ff2a2a;
+  line-height: 1;
+  text-shadow: 0 0 10px #ff2a2a;
+}
+
+.m-btn-brake .m-btn-label {
+  font-size: 10px;
+  font-weight: 900;
+  color: #ff5555;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+.m-btn-brake.pressed {
+  background: rgba(255, 42, 42, 0.4);
+  border-color: #ff2a2a;
+  box-shadow: 0 0 25px rgba(255, 42, 42, 0.8);
+}
+
+/* Gas / Accelerate Pedal */
+.m-btn-gas {
+  width: 82px;
+  height: 94px;
+  border-radius: 16px;
+  border-color: rgba(57, 255, 20, 0.6);
+  background: linear-gradient(135deg, rgba(10, 35, 15, 0.9), rgba(5, 20, 10, 0.95));
+}
+
+.m-btn-gas .m-pedal-icon {
+  font-size: 32px;
+  color: #39ff14;
+  line-height: 1;
+  text-shadow: 0 0 12px #39ff14;
+}
+
+.m-btn-gas .m-btn-label {
+  font-size: 11px;
+  font-weight: 900;
+  color: #39ff14;
+  letter-spacing: 2px;
+  margin-top: 4px;
+  text-shadow: 0 0 8px rgba(57, 255, 20, 0.6);
+}
+
+.m-btn-gas.pressed {
+  background: rgba(57, 255, 20, 0.4);
+  border-color: #39ff14;
+  box-shadow: 0 0 30px rgba(57, 255, 20, 0.9);
+}
+
+/* ============================================================
+   RESPONSIVE HUD FOR MOBILE SCREENS
+   ============================================================ */
+@media (max-width: 1024px) {
+  /* Scale Radar smaller and reposition higher */
+  .hud-bottom-left {
+    bottom: 120px;
+    left: 20px;
+  }
+  #radar-canvas {
+    width: 115px;
+    height: 115px;
+  }
+  .radar-legend {
+    display: none;
+  }
+
+  /* Reposition Speedometer above pedals */
+  .hud-bottom-right {
+    bottom: 155px;
+    right: 20px;
+  }
+  .speedo-cluster {
+    padding: 10px 16px;
+  }
+  .speed-number {
+    font-size: 44px;
+  }
+  .rpm-meter {
+    width: 150px;
+    height: 6px;
+  }
+  .nitro-track {
+    width: 120px;
+  }
+
+  /* Hide keyboard controls hint on mobile */
+  .hud-controls-hint {
+    display: none;
+  }
+
+  /* Smaller Top Wanted Meter */
+  .hud-top-bar {
+    top: 10px;
+    left: 12px;
+    right: 12px;
+  }
+  .wanted-meter {
+    padding: 6px 12px;
+  }
+  .heat-title {
+    font-size: 11px;
+  }
+  .revenue-hud {
+    padding: 6px 14px;
+  }
+  .rev-val {
+    font-size: 16px;
+  }
+
+  /* Compact Telemetry */
+  .hud-telemetry-panel {
+    top: 70px;
+    right: 12px;
+    width: 220px;
+    padding: 10px 12px;
+    font-size: 11px;
+  }
+}

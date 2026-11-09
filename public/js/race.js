@@ -275,3 +275,4 @@ class RaceManager {
 }
 
 window.RaceManager = RaceManager;
+

@@ -306,6 +306,22 @@ class Vehicle {
     if (keyboard.isPressed(pc.KEY_SPACE)) handbrake = true;
     if (keyboard.isPressed(pc.KEY_SHIFT)) nitroInput = true;
 
+    // Mobile On-Screen Touch Controls support
+    const touch = window.TouchControls;
+    if (touch) {
+      if (touch.gas) forwardInput += 1;
+      if (touch.brake) forwardInput -= 1;
+      if (touch.left) turnInput -= 1;
+      if (touch.right) turnInput += 1;
+      if (touch.drift) handbrake = true;
+      if (touch.nitro) nitroInput = true;
+      if (touch.reset) {
+        touch.reset = false;
+        this.resetPosition();
+        return;
+      }
+    }
+
     // Vehicle Reset on 'R'
     if (keyboard.wasPressed(pc.KEY_R)) {
       this.resetPosition();

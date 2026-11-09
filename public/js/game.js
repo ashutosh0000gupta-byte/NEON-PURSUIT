@@ -95,6 +95,9 @@
     const hud = new GameHUD();
     const adTracker = new AdTracker(app, camera, audio);
 
+    // 7a. Instantiate Mobile Touch Virtual Controller
+    const mobileControls = window.MobileControlsManager ? new MobileControlsManager() : null;
+
     // 7b. Instantiate Civilian Traffic & Checkpoint Street Racing
     const traffic = window.TrafficManager ? new TrafficManager(app, audio) : null;
     const race = window.RaceManager ? new RaceManager(app, audio, hud) : null;

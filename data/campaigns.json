@@ -148,8 +148,8 @@
       "headline": "0ms LATENCY. NO EXCUSES.",
       "cpm": 110,
       "budget": 45000,
-      "spent": 0,
-      "impressions": 0,
+      "spent": 0.11,
+      "impressions": 1,
       "startDate": "2026-11-01",
       "endDate": "2026-12-31",
       "status": "active"

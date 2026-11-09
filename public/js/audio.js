@@ -131,7 +131,7 @@ class GameAudio {
   }
 
   // Update engine pitch, RPM, and tire screech on every game frame
-  update(rpmRatio, throttle, isDrifting, isBraking, isNitro = false) {
+  update(rpmRatio, throttle, isDrifting, isBraking, isNitro = false, isSpeedbreaker = false) {
     if (!this.initialized || !this.ctx || this.muted) return;
 
     if (this.ctx.state === 'suspended') {
@@ -139,6 +139,14 @@ class GameAudio {
     }
 
     const now = this.ctx.currentTime;
+
+    // Speedbreaker bullet-time acoustic muffling (NFS Most Wanted 2005)
+    if (isSpeedbreaker) {
+      this.master.gain.setTargetAtTime(0.55, now, 0.08);
+      this.engineFilter.frequency.setTargetAtTime(220, now, 0.06);
+    } else {
+      this.master.gain.setTargetAtTime(0.8, now, 0.12);
+    }
 
     // Check for throttle release backfire pop
     if (this.lastThrottle > 0.8 && throttle < 0.2 && rpmRatio > 0.5) {

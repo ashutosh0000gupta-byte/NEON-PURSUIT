@@ -29,6 +29,8 @@ body, html {
   height: 100%;
   display: block;
   z-index: 1;
+  /* Iconic Need for Speed: Most Wanted (2005) Autumn Golden-Hour & Bloom Filter */
+  filter: sepia(0.20) contrast(1.15) saturate(1.22) brightness(1.04);
 }
 
 /* --- HUD ROOT CONTAINER --- */
@@ -230,7 +232,7 @@ body, html {
 }
 
 /* ============================================================
-   BOTTOM RIGHT: SPEEDOMETER & TACHOMETER CLUSTER
+   MOST WANTED 2005 CIRCULAR GAUGE CLUSTER
    ============================================================ */
 .hud-bottom-right {
   position: absolute;
@@ -238,113 +240,299 @@ body, html {
   right: 28px;
 }
 
-.speedo-cluster {
+.mw-gauge-cluster {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  background: linear-gradient(135deg, rgba(12, 16, 24, 0.92), rgba(5, 8, 14, 0.95));
-  border-right: 5px solid #00f7ff;
-  border-top: 1px solid rgba(0, 247, 255, 0.4);
-  padding: 16px 24px 14px 32px;
-  clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
-  box-shadow: -10px 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 247, 255, 0.15);
-  backdrop-filter: blur(10px);
+  align-items: center;
+  gap: 12px;
 }
 
-.gear-badge {
+/* Dual Sidebars: NOS & Speedbreaker */
+.mw-side-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.side-bar-label {
   font-family: 'Orbitron', sans-serif;
-  font-size: 24px;
+  font-size: 11px;
   font-weight: 900;
-  color: #ffb703;
-  background: rgba(30, 25, 10, 0.8);
-  border: 1px solid rgba(255, 183, 3, 0.5);
-  width: 44px;
-  height: 38px;
+  letter-spacing: 1px;
+}
+
+.mw-nos-bar .side-bar-label {
+  color: #00f7ff;
+  text-shadow: 0 0 8px #00f7ff;
+}
+
+.mw-sb-bar .side-bar-label {
+  color: #ff8c00;
+  text-shadow: 0 0 8px #ff8c00;
+}
+
+.side-bar-track {
+  width: 14px;
+  height: 140px;
+  background: rgba(15, 20, 30, 0.9);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 2px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+}
+
+.nos-fill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #00f7ff, #0055ff);
+  box-shadow: 0 0 12px #00f7ff;
+  border-radius: 2px;
+  transition: height 0.08s ease;
+}
+
+.sb-fill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #ffcc00, #ff5500);
+  box-shadow: 0 0 12px #ff8c00;
+  border-radius: 2px;
+  transition: height 0.08s ease;
+}
+
+/* Main Circular Dial Face */
+.mw-dial-face {
+  position: relative;
+  width: 180px;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: skewX(-12deg);
-  margin-bottom: 4px;
-  text-shadow: 0 0 8px #ffb703;
+}
+
+.mw-dial-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(0deg);
+}
+
+.mw-dial-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  margin-top: 10px;
+}
+
+.mw-needle-pivot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  background: #ff5500;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(-125deg);
+  transition: transform 0.05s ease-out;
+  box-shadow: 0 0 10px #ff5500;
+  z-index: 6;
+}
+
+.mw-needle-blade {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3.5px;
+  height: 70px;
+  background: linear-gradient(0deg, #ff2200, #ffcc00);
+  border-radius: 2px;
+  box-shadow: 0 0 8px #ff5500;
+}
+
+/* Gear Badge */
+.gear-badge {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: #ff8c00;
+  background: rgba(30, 20, 10, 0.9);
+  border: 1.5px solid rgba(255, 140, 0, 0.6);
+  width: 36px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: skewX(-10deg);
+  margin-bottom: 2px;
+  text-shadow: 0 0 8px #ff8c00;
 }
 
 .speed-readout {
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  gap: 4px;
 }
 
 .speed-number {
   font-family: 'Orbitron', sans-serif;
-  font-size: 64px;
+  font-size: 52px;
   font-weight: 900;
   line-height: 1;
   color: #ffffff;
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
 }
 
 .speed-unit {
   font-family: 'Orbitron', sans-serif;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
-  color: #00f7ff;
-  letter-spacing: 2px;
-}
-
-/* RPM Bar */
-.rpm-meter {
-  width: 220px;
-  height: 8px;
-  background: rgba(20, 30, 45, 0.8);
-  border: 1px solid rgba(0, 247, 255, 0.3);
-  margin-top: 10px;
-  transform: skewX(-15deg);
-  overflow: hidden;
-}
-
-.rpm-fill {
-  height: 100%;
-  width: 15%;
-  background: linear-gradient(90deg, #00f7ff 0%, #39ff14 70%, #ffb703 85%, #ff2a2a 100%);
-  transition: width 0.05s ease-out;
-}
-
-.rpm-fill.redline {
-  background: #ff1a1a;
-  box-shadow: 0 0 12px #ff1a1a;
-}
-
-/* Nitro Bar */
-.nitro-meter {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.nitro-label {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 11px;
-  font-weight: 900;
-  color: #00f7ff;
+  color: #ff8c00;
   letter-spacing: 1px;
 }
 
-.nitro-track {
-  width: 180px;
-  height: 6px;
-  background: rgba(10, 20, 35, 0.8);
-  border: 1px solid rgba(0, 247, 255, 0.3);
-  transform: skewX(-15deg);
-  overflow: hidden;
+/* ============================================================
+   MOST WANTED PURSUIT COOLDOWN BAR & EVADED MODAL
+   ============================================================ */
+.pursuit-cooldown-panel {
+  display: flex;
+  flex-direction: column;
+  background: rgba(15, 18, 25, 0.92);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  padding: 8px 18px;
+  border-radius: 4px;
+  min-width: 320px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
 }
 
-.nitro-fill {
-  height: 100%;
+.pursuit-cooldown-panel.active {
+  border-color: #ff2200;
+  box-shadow: 0 0 25px rgba(255, 34, 0, 0.4);
+}
+
+.cd-header {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.cd-status.chasing {
+  color: #ff2200;
+  animation: pulse-red 1s infinite;
+}
+
+.cd-status.evading {
+  color: #39ff14;
+  text-shadow: 0 0 8px #39ff14;
+}
+
+@keyframes pulse-red {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.cd-bounty {
+  color: #ffcc00;
+}
+
+.cd-track {
   width: 100%;
-  background: #00f7ff;
-  box-shadow: 0 0 8px #00f7ff;
-  transition: width 0.1s ease;
+  height: 8px;
+  background: rgba(25, 30, 40, 0.9);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cd-fill.chasing-fill {
+  background: linear-gradient(90deg, #ff2200, #ff8800);
+  box-shadow: 0 0 10px #ff2200;
+}
+
+.cd-fill.evading-fill {
+  background: linear-gradient(90deg, #00f7ff, #39ff14);
+  box-shadow: 0 0 12px #39ff14;
+  transition: width 0.1s linear;
+}
+
+/* Fullscreen Pursuit Evaded Modal */
+.mw-evaded-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.85);
+  background: rgba(10, 15, 22, 0.95);
+  border: 3px solid #39ff14;
+  padding: 30px 50px;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(57, 255, 20, 0.6), inset 0 0 30px rgba(57, 255, 20, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  z-index: 100;
+}
+
+.mw-evaded-modal.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.evaded-stamp {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 38px;
+  font-weight: 900;
+  font-style: italic;
+  color: #39ff14;
+  letter-spacing: 4px;
+  text-shadow: 0 0 20px #39ff14;
+}
+
+.evaded-sub {
+  font-size: 13px;
+  font-weight: 700;
+  color: #cbd5e1;
+  letter-spacing: 2px;
+  margin-top: 4px;
+  margin-bottom: 24px;
+}
+
+.evaded-stats-row {
+  display: flex;
+  gap: 36px;
+  justify-content: center;
+}
+
+.e-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.e-lbl {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8899aa;
+  letter-spacing: 1px;
+}
+
+.e-val {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: #ffcc00;
+  margin-top: 4px;
 }
 
 /* ============================================================
@@ -840,6 +1028,33 @@ body, html {
   display: flex;
   justify-content: flex-end;
   gap: 16px;
+}
+
+/* Speedbreaker Button */
+.m-btn-sb {
+  width: 68px;
+  height: 52px;
+  border-radius: 12px;
+  border-color: rgba(255, 140, 0, 0.6);
+  background: linear-gradient(135deg, rgba(40, 20, 5, 0.85), rgba(25, 10, 0, 0.9));
+}
+
+.m-btn-sb .m-btn-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.m-btn-sb .m-btn-label {
+  font-size: 9px;
+  font-weight: 900;
+  color: #ff8c00;
+  letter-spacing: 0.5px;
+}
+
+.m-btn-sb.pressed {
+  background: rgba(255, 140, 0, 0.5);
+  border-color: #ff8c00;
+  box-shadow: 0 0 25px rgba(255, 140, 0, 0.9);
 }
 
 /* Drift Button */

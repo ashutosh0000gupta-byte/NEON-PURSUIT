@@ -61,15 +61,25 @@ class Vehicle {
     app.root.addChild(this.root);
 
     // --- MATERIALS ---
-    // Metallic Silver/Cobalt Blue NFS MW Hero paint
+    // Iconic NFS Most Wanted BMW M3 GTR Metallic Silver
     const carPaintMat = new pc.StandardMaterial();
-    carPaintMat.diffuse = new pc.Color(0.08, 0.25, 0.65); // Iconic Cobalt Blue
-    carPaintMat.specular = new pc.Color(0.9, 0.95, 1.0);
+    carPaintMat.diffuse = new pc.Color(0.82, 0.85, 0.90); // Metallic Silver
+    carPaintMat.specular = new pc.Color(1.0, 1.0, 1.0);
     carPaintMat.shininess = 95;
     carPaintMat.metalness = 0.85;
     carPaintMat.useMetalness = true;
     carPaintMat.update();
     this.materials.paint = carPaintMat;
+
+    // BMW M3 GTR Iconic Cobalt Blue Vinyl Stripes
+    const stripeMat = new pc.StandardMaterial();
+    stripeMat.diffuse = new pc.Color(0.05, 0.22, 0.75); // Deep Cobalt Blue
+    stripeMat.specular = new pc.Color(0.8, 0.9, 1.0);
+    stripeMat.shininess = 90;
+    stripeMat.metalness = 0.6;
+    stripeMat.useMetalness = true;
+    stripeMat.update();
+    this.materials.stripe = stripeMat;
 
     // Matte Carbon Fiber for splitters & spoiler
     const carbonMat = new pc.StandardMaterial();
@@ -155,6 +165,35 @@ class Vehicle {
     hood.setLocalEulerAngles(-4, 0, 0);
     this.chassis.addChild(hood);
 
+    // D2. BMW M3 GTR Hood Dual Cobalt Blue Stripes
+    [-0.32, 0.32].forEach(sx => {
+      const hoodStripe = new pc.Entity('HoodStripe');
+      hoodStripe.addComponent('render', { type: 'box', material: stripeMat });
+      hoodStripe.setLocalScale(0.24, 0.23, 1.38);
+      hoodStripe.setLocalPosition(sx, 0.45, 1.35);
+      hoodStripe.setLocalEulerAngles(-4, 0, 0);
+      this.chassis.addChild(hoodStripe);
+    });
+
+    // D3. BMW M3 GTR Roof Stripes
+    [-0.32, 0.32].forEach(sx => {
+      const roofStripe = new pc.Entity('RoofStripe');
+      roofStripe.addComponent('render', { type: 'box', material: stripeMat });
+      roofStripe.setLocalScale(0.24, 0.13, 1.78);
+      roofStripe.setLocalPosition(sx, 0.99, -0.2);
+      this.chassis.addChild(roofStripe);
+    });
+
+    // D4. BMW M3 GTR Side Door Decal Flanks
+    [-0.93, 0.93].forEach((sx, idx) => {
+      const sideStripe = new pc.Entity('SideStripe_' + idx);
+      sideStripe.addComponent('render', { type: 'box', material: stripeMat });
+      sideStripe.setLocalScale(0.04, 0.18, 2.2);
+      sideStripe.setLocalPosition(sx, 0.42, -0.1);
+      sideStripe.setLocalEulerAngles(0, 0, idx === 0 ? -6 : 6);
+      this.chassis.addChild(sideStripe);
+    });
+
     // E. Front Splitter (Carbon Fiber)
     const splitter = new pc.Entity('FrontSplitter');
     splitter.addComponent('render', { type: 'box', material: carbonMat });
@@ -205,7 +244,38 @@ class Vehicle {
       ex.setLocalEulerAngles(90, 0, 0);
       this.chassis.addChild(ex);
       this.exhausts.push(ex);
+
+      // Nitro Flame Cone
+      const flameMat = new pc.StandardMaterial();
+      flameMat.diffuse = new pc.Color(0, 0.8, 1);
+      flameMat.emissive = new pc.Color(0.2, 2.5, 3.5);
+      flameMat.opacity = 0.8;
+      flameMat.blendType = pc.BLEND_ADDITIVE;
+      flameMat.update();
+
+      const flame = new pc.Entity('Flame_' + idx);
+      flame.addComponent('render', { type: 'cone', material: flameMat });
+      flame.setLocalScale(0.12, 0.65, 0.12);
+      flame.setLocalPosition(ox, 0.22, -2.65);
+      flame.setLocalEulerAngles(-90, 0, 0);
+      flame.enabled = false;
+      this.chassis.addChild(flame);
+      if (!this.nitroFlames) this.nitroFlames = [];
+      this.nitroFlames.push(flame);
     });
+
+    // Underglow Neon Ground Light
+    const underglow = new pc.Entity('UnderglowLight');
+    underglow.addComponent('light', {
+      type: 'point',
+      color: new pc.Color(0, 0.9, 1),
+      intensity: 2.2,
+      range: 4.5,
+      castShadows: false
+    });
+    underglow.setLocalPosition(0, 0.15, 0);
+    this.chassis.addChild(underglow);
+    this.underglowLight = underglow;
 
     // I. Headlight Meshes & Projector Spotlights
     [-0.65, 0.65].forEach((hx, idx) => {
@@ -297,6 +367,7 @@ class Vehicle {
     let turnInput = 0;
     let handbrake = false;
     let nitroInput = false;
+    let speedbreakerInput = false;
 
     // Keyboard support: Arrow keys and WASD
     if (keyboard.isPressed(pc.KEY_UP) || keyboard.isPressed(pc.KEY_W)) forwardInput += 1;
@@ -305,6 +376,7 @@ class Vehicle {
     if (keyboard.isPressed(pc.KEY_RIGHT) || keyboard.isPressed(pc.KEY_D)) turnInput += 1;
     if (keyboard.isPressed(pc.KEY_SPACE)) handbrake = true;
     if (keyboard.isPressed(pc.KEY_SHIFT)) nitroInput = true;
+    if (keyboard.isPressed(pc.KEY_X)) speedbreakerInput = true;
 
     // Mobile On-Screen Touch Controls support
     const touch = window.TouchControls;
@@ -315,11 +387,25 @@ class Vehicle {
       if (touch.right) turnInput += 1;
       if (touch.drift) handbrake = true;
       if (touch.nitro) nitroInput = true;
+      if (touch.speedbreaker) speedbreakerInput = true;
       if (touch.reset) {
         touch.reset = false;
         this.resetPosition();
         return;
       }
+    }
+
+    // SPEEDBREAKER BULLET-TIME (NFS MOST WANTED 2005)
+    this.speedbreaker = this.speedbreaker ?? 100;
+    this.isSpeedbreaker = speedbreakerInput && this.speedbreaker > 5;
+    if (this.isSpeedbreaker) {
+      this.speedbreaker = Math.max(0, this.speedbreaker - dt * 28);
+      window.gameTimeScale = 0.38;
+      this.maxSteeringAngle = 44; // Razor-sharp steering for roadblock dodging
+    } else {
+      this.speedbreaker = Math.min(100, this.speedbreaker + dt * 10);
+      window.gameTimeScale = 1.0;
+      this.maxSteeringAngle = 32;
     }
 
     // Vehicle Reset on 'R'
@@ -493,10 +579,52 @@ class Vehicle {
     this.materials.taillight.emissive = tailEmissive;
     this.materials.taillight.update();
 
+    // 9b. NITRO EXHAUST FLAMES
+    if (this.nitroFlames) {
+      this.nitroFlames.forEach(f => {
+        f.enabled = this.isNitro;
+        if (this.isNitro) {
+          f.setLocalScale(0.12 + Math.random() * 0.05, 0.65 + Math.random() * 0.25, 0.12 + Math.random() * 0.05);
+        }
+      });
+    }
+
     // 10. UPDATE AUDIO ENGINE
     if (audio) {
       const rpmRatio = Math.max(0, Math.min(1, (this.rpm - 900) / (this.maxRpm - 900)));
-      audio.update(rpmRatio, this.throttle, this.isDrifting, this.isBraking, this.isNitro);
+      audio.update(rpmRatio, this.throttle, this.isDrifting, this.isBraking, this.isNitro, this.isSpeedbreaker);
+    }
+  }
+
+  // Switch Car Models (Garage System)
+  switchCarModel(type) {
+    if (type === 'VENOM_V8') {
+      // American Muscle
+      this.materials.paint.diffuse = new pc.Color(0.06, 0.06, 0.07); // Matte Black
+      this.materials.paint.specular = new pc.Color(0.4, 0.4, 0.4);
+      this.materials.paint.shininess = 40;
+      this.materials.paint.update();
+      if (this.underglowLight) this.underglowLight.light.color = new pc.Color(1.0, 0.4, 0.0); // Orange underglow
+      this.currentModelName = 'VENOM V8 MUSCLE';
+      console.log('🏎️ Switched to VENOM V8 MUSCLE');
+    } else if (type === 'PHANTOM_R9') {
+      // Exotic Hypercar
+      this.materials.paint.diffuse = new pc.Color(0.1, 0.85, 0.15); // Lime Green
+      this.materials.paint.specular = new pc.Color(1, 1, 1);
+      this.materials.paint.shininess = 100;
+      this.materials.paint.update();
+      if (this.underglowLight) this.underglowLight.light.color = new pc.Color(0.2, 1.0, 0.3); // Emerald underglow
+      this.currentModelName = 'PHANTOM R9 HYPERCAR';
+      console.log('🏎️ Switched to PHANTOM R9 HYPERCAR');
+    } else {
+      // Apex GT Hero Car
+      this.materials.paint.diffuse = new pc.Color(0.08, 0.25, 0.65); // Cobalt Blue
+      this.materials.paint.specular = new pc.Color(0.9, 0.95, 1.0);
+      this.materials.paint.shininess = 95;
+      this.materials.paint.update();
+      if (this.underglowLight) this.underglowLight.light.color = new pc.Color(0, 0.9, 1.0); // Cyan underglow
+      this.currentModelName = 'APEX GT COUPE';
+      console.log('🏎️ Switched to APEX GT COUPE');
     }
   }
 

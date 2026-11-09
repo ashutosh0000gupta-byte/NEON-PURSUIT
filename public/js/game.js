@@ -37,28 +37,33 @@
       app.resizeCanvas();
     });
 
-    // 2. Set Up Atmospheric Lighting & Night Sky
-    app.scene.ambientLight = new pc.Color(0.14, 0.16, 0.24); // Atmospheric Night Indigo
+    // 2. Set Up Iconic Need for Speed: Most Wanted (2005) Autumn Golden Hour Atmosphere
+    app.scene.ambientLight = new pc.Color(0.48, 0.40, 0.28); // Warm Golden-Amber Ambient
 
-    // Directional Moonlight
-    const moonLight = new pc.Entity('MoonLight');
-    moonLight.addComponent('light', {
+    // Atmospheric Autumn Distance Fog (Iconic Rockport City Haze)
+    app.scene.fog = pc.FOG_EXP;
+    app.scene.fogColor = new pc.Color(0.68, 0.55, 0.38);
+    app.scene.fogDensity = 0.0028;
+
+    // Golden Sunlight (Long shadows, warm automotive reflections)
+    const sunLight = new pc.Entity('MWSunLight');
+    sunLight.addComponent('light', {
       type: 'directional',
-      color: new pc.Color(0.45, 0.52, 0.7),
-      intensity: 0.9,
+      color: new pc.Color(1.0, 0.85, 0.55),
+      intensity: 1.55,
       castShadows: false
     });
-    moonLight.setEulerAngles(50, 35, 0);
-    app.root.addChild(moonLight);
+    sunLight.setEulerAngles(38, 48, 0);
+    app.root.addChild(sunLight);
 
-    // Warm Ambient Ground Fill
+    // Warm Horizon Fill
     const warmFill = new pc.Entity('CityWarmAmbient');
     warmFill.addComponent('light', {
       type: 'directional',
-      color: new pc.Color(0.35, 0.28, 0.2),
-      intensity: 0.4
+      color: new pc.Color(0.55, 0.38, 0.22),
+      intensity: 0.5
     });
-    warmFill.setEulerAngles(-45, -120, 0);
+    warmFill.setEulerAngles(-40, -110, 0);
     app.root.addChild(warmFill);
 
     // 3. Instantiate Game Audio Synthesizer
@@ -98,9 +103,17 @@
     // 7a. Instantiate Mobile Touch Virtual Controller
     const mobileControls = window.MobileControlsManager ? new MobileControlsManager() : null;
 
-    // 7b. Instantiate Civilian Traffic & Checkpoint Street Racing
+    // 7b. Instantiate Civilian Traffic, Street Racing & Police Pursuit
     const traffic = window.TrafficManager ? new TrafficManager(app, audio) : null;
     const race = window.RaceManager ? new RaceManager(app, audio, hud) : null;
+    const police = window.PoliceManager ? new PoliceManager(app, audio, hud) : null;
+
+    // Press 'P' to trigger Police Pursuit
+    window.addEventListener('keydown', (e) => {
+      if ((e.key === 'p' || e.key === 'P') && police) {
+        police.triggerPursuit('HEAT 1 DISPATCH: 10-41 SUSPECT SIGHTED');
+      }
+    });
 
     // Press 'E' to trigger Checkpoint Sprint Race
     window.addEventListener('keydown', (e) => {
@@ -154,21 +167,26 @@
       // Clamp dt to avoid physics explodes on tab switch
       const clampedDt = Math.min(dt, 0.1);
 
+      // Speedbreaker time scale (slow motion bullet time)
+      const timeScale = window.gameTimeScale || 1.0;
+      const scaledDt = clampedDt * timeScale;
+
       // A. Update Vehicle Physics & Audio
-      vehicle.update(clampedDt, app.keyboard, audio);
+      vehicle.update(scaledDt, app.keyboard, audio);
 
       // B. Update 3rd-Person Follow Camera
       updateCamera(clampedDt, camera, vehicle, cameraConfigs[cameraMode], currentCamPos);
 
       // C. Update Ad Viewability Tracking Engine
-      adTracker.update(clampedDt, vehicle.speedKmh);
+      adTracker.update(scaledDt, vehicle.speedKmh);
 
-      // C2. Update Civilian Traffic & Street Race
-      if (traffic) traffic.update(clampedDt, vehicle);
-      if (race) race.update(clampedDt, vehicle);
+      // C2. Update Civilian Traffic, Street Race & Police Pursuit
+      if (traffic) traffic.update(scaledDt, vehicle);
+      if (race) race.update(scaledDt, vehicle);
+      if (police) police.update(scaledDt, vehicle);
 
       // D. Update HUD UI & Mini-Map Radar
-      hud.update(vehicle, billboards);
+      hud.update(vehicle, billboards, police);
     });
 
     console.log('✅ NEON PURSUIT Ready to Race');

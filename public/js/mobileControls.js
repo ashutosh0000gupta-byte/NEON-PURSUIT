@@ -55,6 +55,7 @@ class MobileControlsManager {
       <!-- TOP ACTION PILLS -->
       <div class="mobile-top-actions">
         <button class="m-pill-btn" id="m-btn-cam">📷 CAM</button>
+        <button class="m-pill-btn" id="m-btn-cop" style="color: #ff3333; border-color: rgba(255, 50, 50, 0.4);">🚨 POLICE</button>
         <button class="m-pill-btn" id="m-btn-reset">🔄 RESET</button>
         <button class="m-pill-btn" id="m-btn-race">🏁 RACE</button>
         <button class="m-pill-btn" id="m-btn-ads">📊 ADS</button>
@@ -74,8 +75,12 @@ class MobileControlsManager {
 
       <!-- BOTTOM RIGHT: PEDALS & POWER CLUSTER -->
       <div class="mobile-pedal-cluster">
-        <!-- Power row (Drift & NOS) -->
+        <!-- Power row (Speedbreaker, Drift & NOS) -->
         <div class="m-power-row">
+          <button class="m-touch-btn m-btn-sb" id="m-btn-sb" aria-label="Speedbreaker Slow-Mo">
+            <span class="m-btn-icon">⏱️</span>
+            <span class="m-btn-label">SLOW-MO</span>
+          </button>
           <button class="m-touch-btn m-btn-drift" id="m-btn-drift" aria-label="Handbrake Drift">
             <span class="m-btn-icon">⚡</span>
             <span class="m-btn-label">DRIFT</span>
@@ -161,6 +166,7 @@ class MobileControlsManager {
     bindBtn('m-btn-brake', 'brake');
     bindBtn('m-btn-drift', 'drift', true);
     bindBtn('m-btn-nos', 'nitro', true);
+    bindBtn('m-btn-sb', 'speedbreaker', true);
 
     // Single-tap Quick Actions
     const bindTapAction = (id, callback) => {
@@ -183,6 +189,11 @@ class MobileControlsManager {
     bindTapAction('m-btn-cam', () => {
       // Dispatch 'C' key event
       window.dispatchEvent(new KeyboardEvent('keydown', { key: 'c', bubbles: true }));
+    });
+
+    // Police pursuit button
+    bindTapAction('m-btn-cop', () => {
+      window.dispatchEvent(new KeyboardEvent('keydown', { key: 'p', bubbles: true }));
     });
 
     // Reset button
@@ -218,3 +229,4 @@ class MobileControlsManager {
 }
 
 window.MobileControlsManager = MobileControlsManager;
+
